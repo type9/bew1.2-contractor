@@ -1,0 +1,1 @@
+A generic rideshare forum board that can be duplicated and modified to fit any location

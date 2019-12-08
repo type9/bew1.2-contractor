@@ -37,12 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # REST Framework
-        # 'rest_framework',
+    'rest_framework',
     # Authentication
-        # 'accounts',
+    'accounts',
     # Rideshare
     'rideshare',
+    # Third party
+    'location_field.apps.DefaultConfig',
+    'phone_field',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +64,9 @@ ROOT_URLCONF = 'rideit.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates').replace('\\', '/'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,3 +134,24 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+# Where to redirect during authentication
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+# Required for Heroku
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# RIDESHARE CONFIG
+COMMUNITY_NAME_MAX_LEN = 20
+
+# Fixes SITE error
+SITE_ID = 1
+
+# PROTIP:
+# Need to override settings? Create a local_settings.py file
+# in this directory, and add settings there.
+try:
+    from rideit.local_settings import *
+except ImportError:
+    pass

@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import redirect
 
 urlpatterns = [
     # Admin Site
@@ -26,7 +27,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('accounts.urls')),
 
-    # Wiki App
+    # Rideshare App
     path('', include('rideshare.urls')),
 
     #API

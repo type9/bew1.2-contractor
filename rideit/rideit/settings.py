@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rideshare',
     # Third party
     'location_field.apps.DefaultConfig',
+    'mapbox_location_field',
     'phone_field',
 ]
 
@@ -124,6 +125,9 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# MapBox Config
+MAPBOX_KEY = 'pk.eyJ1IjoidHlwZTkiLCJhIjoiY2s0MG1udzF5MDNlbDNtdGNpbTB0aWd6cCJ9.APbhM5MmsjgjpCS6gjUDQQ'
 
 
 # Static files (CSS, JavaScript, Images)

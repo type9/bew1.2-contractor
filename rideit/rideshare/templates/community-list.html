@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content%}
+    <h3>Rideshare Communities {% if communities %}<small class="text-muted">({{ communities|length }} Communit{{ communities|length|pluralize:"y,ies" }})</small>{% endif %}</h3>
+    <hr>
+    {% if communities %}
+        <div class="list-group">
+        {% for community in communities %}
+            {% include "partials/community-card.html" %}
+        {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-primary" role="alert">No communities to display.</div>
+    {% endif %}
+{% endblock %}

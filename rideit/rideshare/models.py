@@ -8,7 +8,6 @@ from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
 from mapbox_location_field.models import LocationField
-from phone_field import PhoneField # provides a phonefield
 
 class Location(models.Model):
     location = LocationField()

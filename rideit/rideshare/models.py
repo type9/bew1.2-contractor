@@ -21,18 +21,8 @@ class Rider(User):
         proxy = True
 
 class RideShare(models.Model):
-    start_location = models.ForeignKey(
-        Location,
-        related_name='startlocation_of_%(app_label)s_%(class)s',
-        on_delete=models.CASCADE,
-        help_text='The start location of this rideshare'
-    ) # TODO: Ask dani what CASCADE means on delete
-    end_location = models.ForeignKey(
-        Location,
-        related_name='endlocation_of_%(app_label)s_%(class)s',
-        on_delete=models.CASCADE,
-        help_text='The end location of this rideshare'
-    )
+    start_location = LocationField()
+    end_location = LocationField()
 
     return_trip = models.BooleanField(
         blank=True,

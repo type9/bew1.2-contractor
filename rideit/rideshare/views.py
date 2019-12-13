@@ -60,7 +60,7 @@ class RideShareDetailView(DetailView):
 class RideShareCreateView(CreateView):
     model = RideShare
     def get(self, request, *args, **kwargs):
-        context = {'rideshare_details': RideShareCreateForm()}
+        context = {'form': RideShareCreateForm()}
         return render(request, 'rideshare-create.html', context)
 
     def post(self, request, slug, *args, **kwargs):

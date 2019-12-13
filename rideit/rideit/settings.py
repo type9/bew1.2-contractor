@@ -25,7 +25,7 @@ SECRET_KEY = '^e*68f(xr&q4pq01_wgee$n)ih4t7wgfy46f-l(osuw-%)!_j^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'rideit.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

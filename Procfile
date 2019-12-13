@@ -1,0 +1,1 @@
+web: gunicorn rideit.wsgi —-log-file -

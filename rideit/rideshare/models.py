@@ -7,13 +7,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
-from location_field.models.plain import PlainLocationField # provides a location field
 from mapbox_location_field.models import LocationField
 from phone_field import PhoneField # provides a phonefield
-
-class Place(models.Model):
-    city = models.CharField(max_length=255)
-    location = PlainLocationField(based_fields=['city'], zoom=7)
 
 class Location(models.Model):
     location = LocationField()

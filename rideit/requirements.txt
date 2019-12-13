@@ -4,3 +4,4 @@ sqlparse==0.3.0
 gunicorn
 djangorestframework
 django-mapbox-location-field
+requests

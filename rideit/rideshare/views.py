@@ -4,7 +4,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.urls import reverse, reverse_lazy
 
-from rideshare.models import Rider, RideShare, Community, Place
+from rideshare.models import Rider, RideShare, Community
 from rideshare.forms import CommunityCreateForm, RideShareCreateForm
 
 

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+  {% block scripts %}{% endblock %}
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,6 +17,8 @@
       <form class="form-inline ml-auto">
         {% if user.is_authenticated %}
           <div class="text-white">Hello, <strong>{{user.username}}</strong>!</div>
+          {% block buttons %}
+          {% endblock%}
           <a href="{% url 'community-create-page'%}" class="btn btn-success ml-4">Create Community</a>
           <a href="{% url 'logout' %}" class="btn btn-danger ml-2">Log Out</a>
         {% endif %}

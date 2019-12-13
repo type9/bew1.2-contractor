@@ -1,11 +1,10 @@
-<div class='panel panel-default'>
-    <a href='{% url "rideshare-details-page" rideshare.id %}' class='list-group-item-active'>
-        <div class='panel-heading'>
-            <h5 class='panel-title'>{{rideshare.deperature_date|date:"SHORT_DATETIME_FORMAT"}} | {{rideshare.start_location.location}} -> {{rideshare.end_location.location}}</h4>
-        </div>
-        <div class='panel-body'>
-            <p>Ride offered by {{rideshare.driver.name}}</p>
-        </div>
-        <div class="panel-footer">${{rideshare.cost_per_passenger}} per passenger</div>
-    </a>
+<div class='panel panel-default pt-3'>
+    <div class='panel-heading'>
+        <a href='{% url "rideshare-details-page" rideshare.id %}' class='list-group-item-active'>
+            <h5 class='panel-title'>{{rideshare.departure_date|date:"SHORT_DATE_FORMAT"}} | {{rideshare.get_start}} -> {{rideshare.get_end}}</h4>
+        </a>
+    </div>
+    <div class='panel-body'>
+        <p>Ride offered by {{rideshare.driver.username}}. ${{rideshare.cost_per_passenger}} per passenger</p>
+    </div>
 </div>

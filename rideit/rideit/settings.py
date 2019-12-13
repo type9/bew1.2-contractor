@@ -127,7 +127,10 @@ USE_L10N = True
 USE_TZ = True
 
 # MapBox Config
-MAPBOX_KEY = 'pk.eyJ1IjoidHlwZTkiLCJhIjoiY2s0MG1udzF5MDNlbDNtdGNpbTB0aWd6cCJ9.APbhM5MmsjgjpCS6gjUDQQ'
+MAPBOX_KEY = os.environ['MAPBOX_API_KEY']
+
+# GoogleMaps Config
+GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 
 
 # Static files (CSS, JavaScript, Images)

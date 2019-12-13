@@ -1,3 +1,5 @@
+import requests
+
 from django.db import models
 
 from django.conf import settings
@@ -26,6 +28,7 @@ class RideShare(models.Model):
 
     return_trip = models.BooleanField(
         blank=True,
+        null=True,
         help_text='If the driver is taking passengers on the ride back'
     )
 
@@ -34,6 +37,7 @@ class RideShare(models.Model):
     )
     return_date = models.DateField(
         blank=True,
+        null=True,
         help_text='OPTIONAL: When the driver plans to return from end location (if is offering return trip)'
     )
 
@@ -45,16 +49,40 @@ class RideShare(models.Model):
     ) # TODO: Ask dani what CASCADE means on delete
     pending_passengers = models.ManyToManyField(
         Rider,
+        blank=True,
+        null=True,
         related_name='pendingpassenger_of_%(app_label)s_%(class)s',
         help_text='The passengers who whish to embark on this trip but have not been accepted by the driver yet'
     )
     passengers = models.ManyToManyField(
         Rider,
+        blank=True,
+        null=True,
         related_name='passenger_of_%(app_label)s_%(class)s',
         help_text='The passengers who will be embarking on this trip'
     )
 
     cost_per_passenger = models.DecimalField(decimal_places=2, max_digits=5, help_text='The cost the driver wishes to charge per passenger') # TODO: Make cost configurable
+
+    @property
+    def get_start(self):
+        '''reverse geocodes start location. returns address'''
+        long = float(self.start_location[0])
+        lat = float(self.start_location[1])
+        geocode_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={settings.GOOGLE_API_KEY}'
+        r = requests.get(geocode_url)
+        print(f'REPSONSE: {r}')
+        return r.json()['results'][0]['formatted_address']
+    
+    @property
+    def get_end(self):
+        '''reverse geocodes start location. returns address'''
+        long = float(self.end_location[0])
+        lat = float(self.end_location[1])
+        geocode_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={settings.GOOGLE_API_KEY}'
+        r = requests.get(geocode_url)
+        return r.json()['results'][0]['formatted_address']
+
 
 class Community(models.Model):
     title = models.CharField(max_length=settings.COMMUNITY_NAME_MAX_LEN, unique=True, help_text='Unique name for you rideshare community')

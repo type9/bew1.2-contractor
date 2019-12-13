@@ -13,3 +13,4 @@ class RideShareCreateForm(forms.ModelForm):
     class Meta:
         model = RideShare
         fields = ('start_location', 'end_location', 'departure_date', 'cost_per_passenger')
+        widgets = {'ref': forms.HiddenInput(),}

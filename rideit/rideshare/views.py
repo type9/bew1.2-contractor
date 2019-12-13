@@ -4,8 +4,12 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.urls import reverse, reverse_lazy
 
+import geocoder
+
 from rideshare.models import Rider, RideShare, Community, Place
 from rideshare.forms import CommunityCreateForm, RideShareCreateForm
+
+
 # Create your views here.
 class CommunityListView(ListView):
     ''' Index page for communities'''
@@ -51,25 +55,35 @@ class RideShareDetailView(DetailView):
     '''Rideshare detail view'''
     model = RideShare
 
-    def get(self, request, rideshare_id):
-        rideshare = get_object_or_404(RideShare, pk=rideshare_id)
+    def get(self, request, pk):
+        rideshare = get_object_or_404(RideShare, pk=pk)
+        start = rideshare.get_start
+        end = rideshare.get_end
         return render(request, 'rideshare-details.html', {
             'rideshare': rideshare,
+            'start': start,
+            'end': end
         })
 
 class RideShareCreateView(CreateView):
     model = RideShare
-    def get(self, request, *args, **kwargs):
-        context = {'form': RideShareCreateForm()}
+    def get(self, request, slug, *args, **kwargs):
+        context = {
+            'form': RideShareCreateForm(),
+            'slug': slug,
+        }
         return render(request, 'rideshare-create.html', context)
 
-    def post(self, request, slug, *args, **kwargs):
-        community = self.get_queryset().get(slug__iexact=slug)
+    def post(self, request, *args, **kwargs):
         form = RideShareCreateForm(request.POST)
-        if form.is_valid():
+        community_slug = request.POST.get('slug', None)
+        community = Community.objects.get(slug=community_slug)
+
+        if form.is_valid() and community is not None:
             rideshare = form.save(commit=False)
             rideshare.driver = Rider.objects.get(id=request.user.id)
             rideshare.save()
+
             community.rideshares.add(rideshare)
             return HttpResponseRedirect(reverse('rideshare-details-page', args=[rideshare.id]))
         return render(request, 'rideshare-create.html', {'form': form})

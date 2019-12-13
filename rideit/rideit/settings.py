@@ -25,7 +25,7 @@ SECRET_KEY = '^e*68f(xr&q4pq01_wgee$n)ih4t7wgfy46f-l(osuw-%)!_j^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'rideit.herokuapp.com']
 
 
 # Application definition
@@ -45,9 +45,7 @@ INSTALLED_APPS = [
     # Rideshare
     'rideshare',
     # Third party
-    'location_field.apps.DefaultConfig',
     'mapbox_location_field',
-    'phone_field',
 ]
 
 MIDDLEWARE = [
@@ -135,6 +133,8 @@ GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+STATIC_ROOT = os.path.join(BASE_DIR, ‘static’)
 
 STATIC_URL = '/static/'
 

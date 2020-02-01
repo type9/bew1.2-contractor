@@ -12,6 +12,7 @@
     {% endblock %}
   </head>
   <body>
+      <!-- Begin Navbar -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <a class="navbar-brand" href="{% url 'community-list-page' %}"><i class="fas fa-car"></i> Ride Sharing</a>
       <form class="form-inline ml-auto">
@@ -28,6 +29,7 @@
         {% endif %}
       </form>
     </nav>
+    <!-- End Navbar - Begin Main Body Section -->
     <main role="main" class="container" style="margin-top: 4vh;">
       {% block content %}
         <div class="row">
@@ -39,6 +41,7 @@
         </div>
       {% endblock %}
     </main>
+    <!-- End Main Body Section - Begin Javascript calls -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>

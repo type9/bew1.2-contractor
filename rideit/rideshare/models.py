@@ -63,20 +63,21 @@ class RideShare(models.Model):
         '''reverse geocodes start location. returns address'''
         long = float(self.start_location[0])
         lat = float(self.start_location[1])
-        geocode_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={settings.GOOGLE_API_KEY}'
-        r = requests.get(geocode_url)
-        print(f'REPSONSE: {r}')
-        return r.json()['results'][0]['formatted_address']
+        # geocode_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={settings.GOOGLE_API_KEY}'
+        # r = requests.get(geocode_url)
+        # print(f'REPSONSE: {r}')
+        # return r.json()['results'][0]['formatted_address']
+        return f'LONG:{long}, LAT:{lat}'
     
     @property
     def get_end(self):
         '''reverse geocodes start location. returns address'''
         long = float(self.end_location[0])
         lat = float(self.end_location[1])
-        geocode_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={settings.GOOGLE_API_KEY}'
-        r = requests.get(geocode_url)
-        return r.json()['results'][0]['formatted_address']
-
+        # geocode_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={settings.GOOGLE_API_KEY}'
+        # r = requests.get(geocode_url)
+        # return r.json()['results'][0]['formatted_address']
+        return f'LONG:{long}, LAT:{lat}'
 
 class Community(models.Model):
     title = models.CharField(max_length=settings.COMMUNITY_NAME_MAX_LEN, unique=True, help_text='Unique name for you rideshare community')

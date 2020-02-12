@@ -1,9 +1,9 @@
 {% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light" style='background-color: #EEEEEE'>
     <div class="container">
         <a class="navbar-brand" href="#">
-            <h1>RideIt</h1>
+            <h1 style="color: #272B2B">RideIt</h1>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -16,16 +16,16 @@
                 <li class="nav-item active" style="padding-left: 10px; padding-right: 10px; padding-top: 6px">
                     <a class="nav-link h6" href="#">ABOUT US</a>
                 </li>
-                <li>
-                    <form class="navbar-form" role="search" style='padding-left: 55px; padding-top: 4px'>
+                <!-- <li>
+                    <form class="navbar-form" role="search" style='padding-left: 62px; padding-top: 5px'>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+                            <input type="text" style="background-color: transparent"class="form-control" placeholder="Search" name="srch-term" id="srch-term">
                             <div class="input-group-btn" style="">
                                 <button class="btn btn-light" type="submit" style="background-color: transparent; border-color: #BBBBBB; border-left: None"><span class="fas fa-search"></span></button>
                             </div>
                         </div>
                     </form>
-                </li>
+                </li> -->
             </ul>
             <!-- <span class="username-wrapper">
                 <h6 class="nav-item">Welcome, {{ user.username }}</h6>
@@ -37,7 +37,7 @@
                 {% if user.is_authenticated %}
                     <a class="nav-link" href="/logout"><button class="btn btn-danger">Logout</button></a>
                 {% else %}
-                    <a class="nav-link" href="/logout"><button class="btn btn-success">Login</button></a>
+                    <a class="nav-link" href="/logout"><button class="btn" style='background-color: #47785D; color: #EEEEEE'>Login</button></a>
                 {% endif %}
             </span>
 

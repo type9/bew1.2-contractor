@@ -16,26 +16,24 @@
                 <li class="nav-item active" style="padding-left: 10px; padding-right: 10px; padding-top: 6px">
                     <a class="nav-link h6" href="#">ABOUT US</a>
                 </li>
-                <!-- <li>
-                    <form class="navbar-form" role="search" style='padding-left: 62px; padding-top: 5px'>
-                        <div class="input-group">
-                            <input type="text" style="background-color: transparent"class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-                            <div class="input-group-btn" style="">
-                                <button class="btn btn-light" type="submit" style="background-color: transparent; border-color: #BBBBBB; border-left: None"><span class="fas fa-search"></span></button>
+
+                {% if user.is_authenticated %}
+                    <li>
+                        <form class="navbar-form" role="search" style='padding-left: 62px; padding-top: 5px'>
+                            <div class="input-group">
+                                <input type="text" style="background-color: transparent"class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+                                <div class="input-group-btn" style="">
+                                    <button class="btn btn-light" type="submit" style="background-color: transparent; border-color: #BBBBBB; border-left: None"><span class="fas fa-search"></span></button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </li> -->
+                        </form>
+                    </li>
+                {% endif %}
             </ul>
-            <!-- <span class="username-wrapper">
-                <h6 class="nav-item">Welcome, {{ user.username }}</h6>
-            </span> -->
-            <!-- <span class="newpost-button-wrapper">
-                <a class="nav-link" href="/newpost"><button class="btn btn-dark">New Post</button></a>
-            </span> -->
+
             <span class="logout-button-wrapper">
                 {% if user.is_authenticated %}
-                    <a class="nav-link" href="{% url 'logout' %}"><button class="btn" style="background-color: #FE8E86; color: #EEEEEE; border-radius: 10px;">Logout</button></a>
+                    <a class="nav-link" href="{% url 'logout' %}"><button class="btn" style="background-color: #FE8E86; color: #FFFFFF; border-radius: 10px;">Logout</button></a>
                 {% else %}
                     <a class="nav-link" href="{% url 'login' %}"><button class="btn" style='background-color: #47785D; color: #EEEEEE; border-radius: 10px;'>Login</button></a>
                 {% endif %}

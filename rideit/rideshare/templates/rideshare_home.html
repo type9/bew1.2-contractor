@@ -4,28 +4,36 @@
 
 {% include 'partials/navbar.html' %}
 
-<div class="rideshare-home" style="background-color: #EEEEEE; height: 90vh">
-    <div class="container">
-        <div class="row text-center" style='padding-top: 20%'>
-            <div class="col-md-12">
-                <h1 style='color: #272B2B'>Search for Your Community</h1>
+{% if user.is_authenticated %}
+
+    <div class="rideshare-home" style="background-color: #EEEEEE; padding-bottom: 40px">
+        <div class="container">
+            <div class="row text-center" style='padding-top: 5%'>
+                <div class="col-md-12">
+                    <h1 style='color: #272B2B; padding-bottom: 30px'>Your communities:</h1>
+                </div>
             </div>
-        </div>
-        <div class="row text-center" style="padding-top: 20px">
-            <div class="col-md-4 col-xs-2"></div>
-            <div class="col-md-4 col-xs-8">
-                <form class="form-group" role="search">
-                    <div class="input-group">
-                        <input type="text" style="background-color: transparent; border-radius: 15px; height: 40px"class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-                        <div class="input-group-btn" style="">
-                            <button class="btn btn-light" type="submit" style="background-color: transparent; border-color: #CCCCCC; border-radius: 15px; margin-left: 5px"><span class="fas fa-search"></span></button>
-                        </div>
-                    </div>
-                </form>
+            <div class="row text-center" style="padding-top: 20px">
+                <div class="col-md-6">
+                    {% include 'partials/community_card.html' %}
+                </div>
+                <div class="col-md-6">
+                    {% include 'partials/community_card.html' %}
+                </div>
             </div>
-            <div class="col-md-4 col-xs-2"></div>
+            <div class="row text-center" style="padding-top: 20px">
+                <div class="col-md-6">
+                    {% include 'partials/community_card.html' %}
+                </div>
+                <div class="col-md-6">
+                    {% include 'partials/community_card.html' %}
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+{% else %}
+    {% include 'partials/community_search.html' %}
+{% endif %}
 
 {% endblock %}

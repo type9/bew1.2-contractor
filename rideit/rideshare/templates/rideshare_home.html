@@ -6,14 +6,28 @@
 
 {% if user.is_authenticated %}
 
-    <div class="rideshare-home" style="background-color: #EEEEEE; padding-bottom: 40px">
+    <div class="rideshare-home" style="background-color: #EEEEEE; padding-bottom: 200px;">
         <div class="container">
             <div class="row text-center" style='padding-top: 5%'>
                 <div class="col-md-12">
                     <h1 style='color: #272B2B; padding-bottom: 30px'>Your communities:</h1>
                 </div>
             </div>
-            <div class="row text-center" style="padding-top: 20px">
+
+
+            {% if communities %}
+                <div class="row text-center" style="padding-top: 20px">
+                    {% for community in communities %}
+                        <div class="col-md-6">
+                            {% include 'partials/community_card.html' %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+
+
+            <!-- <div class="row text-center" style="padding-top: 20px">
                 <div class="col-md-6">
                     {% include 'partials/community_card.html' %}
                 </div>
@@ -28,7 +42,7 @@
                 <div class="col-md-6">
                     {% include 'partials/community_card.html' %}
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 

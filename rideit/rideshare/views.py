@@ -16,7 +16,7 @@ class CommunityListView(ListView):
     def get(self, request):
         '''GET a list of communities'''
         communities = self.get_queryset().all()
-        return render(request, 'community-list.html', {
+        return render(request, 'rideshare_home.html', {
             'communities': communities
         })
 
@@ -35,7 +35,7 @@ class CommunityDetailView(DetailView):
 class CommunityCreateView(CreateView):
     '''Community creation form'''
     model = Community
-    
+
     def get(self, request, *args, **kwargs):
         context = {'form': CommunityCreateForm()}
         return render(request, 'community-create.html', context)

@@ -3,6 +3,8 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.urls import reverse, reverse_lazy
+from http.client import responses
+from django.http import HttpResponse
 
 from rideshare.models import Rider, RideShare, Community
 from rideshare.forms import CommunityCreateForm, RideShareCreateForm
@@ -13,40 +15,11 @@ class CommunityListView(ListView):
     ''' Index page for communities'''
     model = Community
 
-    def open_communities(self, request, communities):
-        ''' set boolian for blacklist t/f '''
-        # get current user
-        current_user = request.user
-        # stores all accessable communities
-        new_communities = []
-
-        # stores all blacklisted users
-        blacklisted_users = []
-
-
-
-        for community in communities:
-            print(community)
-            # check if current user is blacklisted
-            print(community.blacklist.all())
-            print("_____-")
-                # print("blacklisted: " + blacklisted_user)
-            for blacklisted_user in community.blacklist.all():
-                print("_________________-")
-                blacklisted_users.append(blacklisted_user)
-
-                print(blacklisted_user)
-
-            if current_user not in blacklisted_users:
-                new_communities.append(community)
-
-
-        return new_communities
 
 
     def get(self, request):
         '''GET a list of communities'''
-        communities = self.open_communities(request, self.get_queryset().all())
+        communities = self.get_queryset().all()
 
         return render(request, 'community-list.html', {
             'communities': communities,
@@ -58,8 +31,34 @@ class CommunityDetailView(DetailView):
     '''Community page'''
     model = Community
 
+    def open_communities(self, request, community):
+        ''' set boolian for blacklist t/f '''
+        # get current user
+        current_user = request.user
+        # stores all accessable communities
+        blacklisted_users = community.blacklist.all()
+        # print("_____ Blacklist Users_____")
+        # print(blacklisted_users)
+        print("_____Current User_____")
+        print(current_user.id)
+
+        for blacklist_user in blacklisted_users:
+            print("blacklist user")
+            print(blacklist_user.id)
+            if blacklist_user == current_user:
+                print("User is blocked from community")
+
+
+
+
+
+        # return new_communities
+
     def get(self, request, slug):
         community = self.get_queryset().get(slug__iexact=slug)
+
+        self.open_communities(request, community)
+
         rideshares = community.get_rideshares().get_queryset()
         return render(request, 'community-details.html', {
             'community': community,

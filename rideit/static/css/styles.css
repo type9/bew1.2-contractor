@@ -1,0 +1,103 @@
+/* navbar */
+.rideshare-navbar{
+    background-color: #EEEEEE;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.rideshare-brand{
+    color: #272B2B;
+}
+
+.rideshare-navbar-options{
+    padding-left: 20px;
+}
+
+.rideshare-navbar-options .rideshare-nav-item{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 6px
+}
+
+.rideshare-navbar-options .rideshare-nav-search-wrapper{
+    padding-left: 62px;
+    padding-top: 5px
+}
+
+.rideshare-nav-search-wrapper .rideshare-nav-search-input{
+    background-color: transparent;
+}
+
+.rideshare-nav-search-wrapper .rideshare-nav-search-btn{
+    background-color: transparent;
+    border-color: #BBBBBB;
+    border-left: None;
+}
+
+/* buttons */
+.logout-button{
+    background-color: transparent;
+    color: #272727;
+    border-radius: 10px;
+}
+
+.login-button{
+    background-color: #47785D;
+    color: #EEEEEE;
+    border-radius: 10px;
+}
+
+.sign-up-button{
+    background-color: #8899A6;
+    color: #EEEEEE;
+    border-radius: 10px;
+}
+
+/* community card */
+
+.community-card{
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    border-color: #f4f4f4;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.community-card .community-card-subtitle{
+    padding-top: 3px;
+}
+
+.community-card .community-card-text{
+    padding-top: 5px;
+}
+
+.community-card .community-card-seemore-button{
+    margin-top: 15px;
+    border-radius: 20px;
+    height: 40px;
+    background-color: #E9AE0B;
+    color: #EEEEEE;
+}
+
+/* profile card */
+
+.profile-card{
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    border-color: #f4f4f4;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.profile-card .profile-card-pic{
+    height: 40px;
+    width: auto;
+    border-radius: 50%;
+}
+
+.profile-card .profile-card-name{
+    padding-left: 10px;
+}
+
+.profile-card .profile-card-subtitle{
+    padding-top: 10px;
+}

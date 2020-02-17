@@ -101,3 +101,13 @@
 .profile-card .profile-card-subtitle{
     padding-top: 10px;
 }
+
+.profile-card .profile-card-add-comm-btn{
+    background-color: transparent;
+    border-radius: 40px;
+}
+
+.profile-card .profile-card-add-comm-btn:hover{
+    background-color: #DDDDDD;
+    border-radius: 40px;
+}

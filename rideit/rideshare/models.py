@@ -16,6 +16,9 @@ class Rider(User):
     class Meta:
         proxy = True
 
+
+
+
 class RideShare(models.Model):
     start_location = LocationField()
     end_location = LocationField()
@@ -68,7 +71,7 @@ class RideShare(models.Model):
         # print(f'REPSONSE: {r}')
         # return r.json()['results'][0]['formatted_address']
         return f'LONG:{long}, LAT:{lat}'
-    
+
     @property
     def get_end(self):
         '''reverse geocodes start location. returns address'''
@@ -115,11 +118,17 @@ class Community(models.Model):
         blank=True,
         help_text='The areas in which this community will offer rideshares in (this is used for Riders to find the right communities)'
     )
-    
+
     rideshares = models.ManyToManyField(
         RideShare,
         blank=True,
         help_text='The current rideshares that are listed under this community'
+    )
+    blacklist = models.ManyToManyField(Rider,
+        related_name='members_of_%(app_label)s_%(class)s',
+        blank=True,
+        help_text='The Riders that are allowed to create and participate in ridesharing in this community',
+
     )
 
     def __str__(self):
@@ -135,6 +144,6 @@ class Community(models.Model):
         if not self.pk:
             self.slug = slugify(self.title, allow_unicode=True)
         super(Community, self).save(*args, **kwargs)
-    
+
     def get_rideshares(self):
         return self.rideshares

@@ -16,7 +16,7 @@ class Rider(User):
     class Meta:
         proxy = True
 
-    
+    # TODO -> Add Number, Age, ProfilePic
 
 
 class RideShare(models.Model):

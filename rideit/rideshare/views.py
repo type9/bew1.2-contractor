@@ -20,6 +20,7 @@ class CommunityListView(ListView):
             'communities': communities
         })
 
+
 class CommunityDetailView(DetailView):
     '''Community page'''
     model = Community
@@ -32,10 +33,11 @@ class CommunityDetailView(DetailView):
             'rideshares': rideshares
         })
 
+
 class CommunityCreateView(CreateView):
     '''Community creation form'''
     model = Community
-    
+
     def get(self, request, *args, **kwargs):
         context = {'form': CommunityCreateForm()}
         return render(request, 'community-create.html', context)
@@ -48,6 +50,7 @@ class CommunityCreateView(CreateView):
             community.save()
             return HttpResponseRedirect(reverse('community-details-page', args=[community.slug]))
         return render(request, 'community-create.html', {'form': form})
+
 
 class RideShareDetailView(DetailView):
     '''Rideshare detail view'''
@@ -63,8 +66,10 @@ class RideShareDetailView(DetailView):
             'end': end
         })
 
+
 class RideShareCreateView(CreateView):
     model = RideShare
+
     def get(self, request, slug, *args, **kwargs):
         context = {
             'form': RideShareCreateForm(),

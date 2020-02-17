@@ -3,7 +3,7 @@ Final project for BEW 1.2. See /proposal.md
 
 LIVE HERE: https://rideit.herokuapp.com/
 
-The concept of this project is to create a 'subredditable' ridesharing platform. To achieve that I have seperate the database in three main structures
+THIS IS THE DEVELOP BRANCH
 
 
 1) Rider (or user)

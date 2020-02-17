@@ -20,7 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+<<<<<<< HEAD
 SECRET_KEY = '5at97#$@o!mkl0!7@0v7!bi_vcy!^$(t_w7wdhzx$sy$cqvrxc'
+=======
+SECRET_KEY = "REPLACEME"
+>>>>>>> 62ae68dec47e3b436d51591fbaa4c82362517405
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -125,10 +129,11 @@ USE_L10N = True
 USE_TZ = True
 
 # MapBox Config
-# MAPBOX_KEY = os.environ['MAPBOX_API_KEY']
+
+MAPBOX_KEY = "REPLACEME"
 
 # GoogleMaps Config
-# GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
+GOOGLE_API_KEY = "REPLACEME"
 
 
 # Static files (CSS, JavaScript, Images)

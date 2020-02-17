@@ -35,35 +35,30 @@ class CommunityDetailView(DetailView):
         ''' set boolian for blacklist t/f '''
         # get current user
         current_user = request.user
-        # stores all accessable communities
+        # stores all blacklist users
         blacklisted_users = community.blacklist.all()
-        # print("_____ Blacklist Users_____")
-        # print(blacklisted_users)
-        print("_____Current User_____")
-        print(current_user.id)
-
+        # loop over blacklist users
         for blacklist_user in blacklisted_users:
-            print("blacklist user")
-            print(blacklist_user.id)
+            # check if current blacklist user is current user
             if blacklist_user == current_user:
-                print("User is blocked from community")
+                return True # blacklist user found return true
 
-
-
-
-
-        # return new_communities
 
     def get(self, request, slug):
         community = self.get_queryset().get(slug__iexact=slug)
 
-        self.open_communities(request, community)
+        banned = self.open_communities(request, community)
 
-        rideshares = community.get_rideshares().get_queryset()
-        return render(request, 'community-details.html', {
-            'community': community,
-            'rideshares': rideshares
-        })
+        if banned == True:
+            print("User is blocked from community")
+            return render(request, 'blacklist.html')
+
+        else:
+            rideshares = community.get_rideshares().get_queryset()
+            return render(request, 'community-details.html', {
+                'community': community,
+                'rideshares': rideshares
+            })
 
 
 class CommunityCreateView(CreateView):
@@ -122,3 +117,9 @@ class RideShareCreateView(CreateView):
             community.rideshares.add(rideshare)
             return HttpResponseRedirect(reverse('rideshare-details-page', args=[rideshare.id]))
         return render(request, 'rideshare-create.html', {'form': form})
+
+
+class BlacklistView(DetailView):
+
+    def get(self, request):
+        return render(request, 'blacklist.html')

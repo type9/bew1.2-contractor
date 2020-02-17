@@ -13,12 +13,45 @@ class CommunityListView(ListView):
     ''' Index page for communities'''
     model = Community
 
+    def open_communities(self, request, communities):
+        ''' set boolian for blacklist t/f '''
+        # get current user
+        current_user = request.user
+        # stores all accessable communities
+        new_communities = []
+
+        # stores all blacklisted users
+        blacklisted_users = []
+
+
+
+        for community in communities:
+            print(community)
+            # check if current user is blacklisted
+            print(community.blacklist.all())
+            print("_____-")
+                # print("blacklisted: " + blacklisted_user)
+            for blacklisted_user in community.blacklist.all():
+                print("_________________-")
+                blacklisted_users.append(blacklisted_user)
+
+                print(blacklisted_user)
+
+            if current_user not in blacklisted_users:
+                new_communities.append(community)
+
+
+        return new_communities
+
+
     def get(self, request):
         '''GET a list of communities'''
-        communities = self.get_queryset().all()
+        communities = self.open_communities(request, self.get_queryset().all())
+
         return render(request, 'community-list.html', {
-            'communities': communities
+            'communities': communities,
         })
+
 
 
 class CommunityDetailView(DetailView):

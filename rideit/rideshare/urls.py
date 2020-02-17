@@ -11,5 +11,5 @@ urlpatterns = [
     path('cm/<str:slug>/newrs', RideShareCreateView.as_view(), name='rideshare-create-page'),
 
     # blacklist user
-    path('cm/blacklist', BlacklistView.as_view(), name='blacklist-page'),
+    path('cm/blacklist/<str:slug>', BlacklistView.as_view(), name='blacklist-page'),
 ]

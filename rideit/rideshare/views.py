@@ -121,5 +121,11 @@ class RideShareCreateView(CreateView):
 
 class BlacklistView(DetailView):
 
+
     def get(self, request):
         return render(request, 'blacklist.html')
+
+    def post(self, request, slug):
+        community = self.get_queryset().get(slug__iexact=slug)
+        print(community)
+        print(slug)

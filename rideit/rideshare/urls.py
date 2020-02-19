@@ -1,6 +1,7 @@
 from django.urls import path
 from rideshare.views import CommunityListView, CommunityDetailView, CommunityCreateView, RideShareDetailView, RideShareCreateView
 
+app_name = 'rideshare'
 
 urlpatterns = [
     path('', CommunityListView.as_view(), name='community-list-page'),

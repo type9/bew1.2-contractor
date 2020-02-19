@@ -38,7 +38,7 @@ class CommunityCreateView(CreateView):
 
     def get(self, request, *args, **kwargs):
         context = {'form': CommunityCreateForm()}
-        return render(request, 'community-create.html', context)
+        return render(request, 'create_community.html', context)
 
     def post(self, request, *args, **kwargs):
         form = CommunityCreateForm(request.POST)
@@ -65,12 +65,13 @@ class RideShareDetailView(DetailView):
 
 class RideShareCreateView(CreateView):
     model = RideShare
+
     def get(self, request, slug, *args, **kwargs):
         context = {
             'form': RideShareCreateForm(),
             'slug': slug,
         }
-        return render(request, 'rideshare-create.html', context)
+        return render(request, 'create_rideshare.html', context)
 
     def post(self, request, *args, **kwargs):
         form = RideShareCreateForm(request.POST)

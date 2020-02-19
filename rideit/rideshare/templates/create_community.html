@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+{% include 'partials/navbar.html' %}
+
+{% if user.is_authenticated %}
+
+    <div class="create-community-home">
+        <div class="container">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="card create-community-card">
+                    <div class="card-body">
+                        <h4 class="card-title create-community-title text-center">Create Your Community!</h4>
+                        <div class="create-community-form-wrapper">
+                            <form method="POST">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <input type="submit" value="Submit Community">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+{% else %}
+    {% include 'partials/not_auth.html' %}
+{% endif %}
+
+{% endblock %}

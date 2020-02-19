@@ -125,29 +125,30 @@ class BlacklistView(DetailView):
     def get(self, request):
         return render(request, 'blacklist.html')
 
-    def post(self, request, slug, pk):
-        # user making request
-        user = request.user
 
-        # block user 
-        block_user = get_object_or_404(Rider, pk=pk)
+# Add user to blocklist
+def BlockUser(request, slug, pk):
+    # user making request
+    user = request.user
 
-        # get community
-        community = self.get_queryset().get(slug__iexact=slug)
+    # block user 
+    block_user = get_object_or_404(Rider, pk=pk)
 
-        # get user to be added to blacklist 
-        if user in community.owner.all() or user in community.moderators.all():
-            # community.blacklist += block_user
-            print("{} user added to blacklist".format(block_user))
-        else: 
-            print("Permission denied")
+    # get community
+    community = get_object_or_404(Community, slug=slug)
+        # question = get_object_or_404(Question, pk=question_id)
 
-        # Check if user making request is owner or moderator
+    # get user to be added to blacklist 
+    if user == community.owner or user in community.moderators.all():
+        # community.blacklist += block_user
+        print("{} user added to blacklist".format(block_user))
+        community.blacklist.add(block_user)
+        community.save()
+        return render(request, 'blacklist.html', {'block': True, 'user': block_user})
 
-        
+    else: 
+        return render(request, 'blacklist.html', {'block': False, 'user': block_user})
 
-        # check if community exist
+    
 
-        # add blocked user to blacklist 
-
-        # save 
+    

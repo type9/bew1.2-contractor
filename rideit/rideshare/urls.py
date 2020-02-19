@@ -1,5 +1,7 @@
 from django.urls import path
-from rideshare.views import CommunityListView, CommunityDetailView, CommunityCreateView, RideShareDetailView, RideShareCreateView, BlacklistView, BlockUser
+from rideshare.views import CommunityListView, CommunityDetailView, CommunityCreateView
+from rideshare.views import RideShareDetailView, RideShareCreateView, BlacklistView
+from rideshare.views import BlockUser, JoinCommunity
 
 
 urlpatterns = [
@@ -12,8 +14,9 @@ urlpatterns = [
 
     # blacklist message route
     path('cm/blacklist/<str:slug>', BlacklistView.as_view(), name='blacklist-page'),
-
     # add blocked user to blacklist
     path('cm/blacklist/<str:slug>/<int:pk>', BlockUser, name='blacklist-page'),
+    # request to join private community
+    path('cm/join/<str:slug>', JoinCommunity, name='blacklist-page'),
 
 ]

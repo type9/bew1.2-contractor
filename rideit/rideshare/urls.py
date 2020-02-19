@@ -20,14 +20,14 @@ urlpatterns = [
     path('rs/<int:pk>', RideShareDetailView.as_view(), name='rideshare-details-page'),
     # create ride share route
     path('cm/<str:slug>/newrs', RideShareCreateView.as_view(),name='rideshare-create-page'),
-    # blacklist message route
+    # blacklist message route slug=community slug
     path('cm/blacklist/<str:slug>', BlacklistView.as_view(), name='blacklist-page'),
-    # add blocked user to blacklist
+    # add blocked user to blacklist slug=community slug, pk=user id
     path('cm/blacklist/<str:slug>/<int:pk>', BlockUser, name='blacklis-user-page'),
-    # request to join private community by current user
+    # request to join private community by current user slug=community slug
     path('cm/join/<str:slug>', JoinCommunity, name='join-community-page'),
-    # request to join private community by moderator
+    # request to join private community by moderator pk=user id
     path('cm/join/<int:pk>/<str:slug>', JoinCommunity, name='join-community-page'),
-    # reqeust to accept member to private community
+    # reqeust to accept member to private community pk=user id
     path('cm/accept/<int:pk>/<str:slug>', AcceptMemberRequest, name='accept-member-page'),
 ]   

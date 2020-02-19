@@ -247,5 +247,5 @@ def AcceptMemberRequest(request, slug, pk):
             message = "{} is already a member of {} community".format(member, community)
     else:
         message = "Action denied! Unauthorized user."
-
+    
     return render(request, 'blacklist.html', {'message': message})

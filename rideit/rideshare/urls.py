@@ -24,8 +24,10 @@ urlpatterns = [
     path('cm/blacklist/<str:slug>', BlacklistView.as_view(), name='blacklist-page'),
     # add blocked user to blacklist
     path('cm/blacklist/<str:slug>/<int:pk>', BlockUser, name='blacklis-user-page'),
-    # request to join private community
+    # request to join private community by current user
     path('cm/join/<str:slug>', JoinCommunity, name='join-community-page'),
+    # request to join private community by moderator
+    path('cm/join/<int:pk>/<str:slug>', JoinCommunity, name='join-community-page'),
     # reqeust to accept member to private community
     path('cm/accept/<int:pk>/<str:slug>', AcceptMemberRequest, name='accept-member-page'),
 ]   

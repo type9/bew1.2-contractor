@@ -188,32 +188,32 @@ def BlockUser(request, slug, pk):
 
 
 # join private community
-def JoinCommunity(request, slug):
+def JoinCommunity(request, slug, pk=None):
     # output message
     message = ""
     # user making request
-    user = get_object_or_404(Rider, pk=request.user.id)
+    if pk is None:
+        pk = request.user.id
+    user = get_object_or_404(Rider, pk=pk)
     # get community
     community = get_object_or_404(Community, slug=slug)
     # check if community is private
     if community.private == False:
-        message = "Open community! feel free to join"
+        message = "{}, this is an Open community! feel free to join {} community".format(user, community)
     # check if user is a member already
     elif user in community.members.all():
-        message = "You are a member of this community already!"
+        message = "{} is a member of {} community already!".format(user, community)
     # check if user is had already made a request
     elif user in community.member_requests.all():
-        message = "Thank you for requesting to join this community again!"
+        message = "Thank you for requesting to join {} again!".format(community)
     # user is not in the community
     else:   
         community.member_requests.add(user)
         # save user to community members requests 
         community.save()
-        message = "Request to join {} has been sent!".format(community)
+        message = "{} send a request to join {} has been sent!".format(user, community)
     # render message to user
     return render(request, 'blacklist.html', {'message': message})
-
-
 
 # accespt user as memeber of community
 def AcceptMemberRequest(request, slug, pk):
@@ -226,15 +226,19 @@ def AcceptMemberRequest(request, slug, pk):
     community = get_object_or_404(Community, slug=slug)
     # check if auth_user has access previllages
     if auth_user == community.owner or auth_user in community.moderators.all():
-        # add memeber to member list
-        community.members.add(member)
-        # check if user had requested to be a member
-        if member in community.member_requests.all():
-            # remove member from member_requests
-            community.member_requests.remove(member)
-        # save community
-        community.save()
-        message = "{} Has bees saved as a member of {}".format(member, community)
+        if member not in community.members.all():
+            # add memeber to member list
+            community.members.add(member)
+            # check if user had requested to be a member
+            if member in community.member_requests.all():
+                # remove member from member_requests
+                community.member_requests.remove(member)
+            # save community
+            community.save()
+            message = "{} has been saved as a member of {}".format(member, community)
+        else:
+            # member is already registedred as a member in this community
+            message = "{} is already a member of {} community".format(member, community)
         
     else:
         message = "Action denied! Unauthorized user."

@@ -46,8 +46,12 @@
     background-color: #EEEEEE;
 }
 
+.ur-communities-wrapper{
+    padding-top: 80px;
+}
+
 .ur-profile-wrapper{
-    padding-top: 60px;
+    padding-top: 40px;
 }
 
 .community-details-home{

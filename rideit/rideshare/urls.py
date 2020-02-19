@@ -1,7 +1,7 @@
 from django.urls import path
 from rideshare.views import CommunityListView, CommunityDetailView, CommunityCreateView
 from rideshare.views import RideShareDetailView, RideShareCreateView, BlacklistView
-from rideshare.views import BlockUser, JoinCommunity, AcceptMemberRequest, RemoveRideShare
+from rideshare.views import BlockUser, JoinCommunity, AcceptMemberRequest, RemoveRideShare, RateAndReviewRide
 
 '''
 Abbreviation Key:
@@ -32,4 +32,6 @@ urlpatterns = [
     path('cm/accept/<int:pk>/<str:slug>', AcceptMemberRequest, name='accept-member-page'),
     # request to remove a rideshare by moderator or owner
     path('cm/<str:slug>/remove/rs/<int:pk>', RemoveRideShare, name='remove-rideshare-page'),
-]   
+    # request to review a RideShare
+    path('cm/<str:slug>/rs/<int:rideshare_id>/review/<int:rating>', RateAndReviewRide, name='remove-rideshare-page'),
+]

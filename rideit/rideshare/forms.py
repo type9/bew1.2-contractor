@@ -16,8 +16,8 @@ class RideShareCreateForm(forms.ModelForm):
                   'cost_per_passenger')
         widgets = {'ref': forms.HiddenInput(), }
 
-class RateAndReviewCreateForm(forms.ModelForm):
-    class Meta:
-        model = RideShare
-        fields = ('driver', 'passengers','start_location','end_location',
-                  'departure_date', 'rating', 'review')
+# class RateAndReviewCreateForm(forms.ModelForm):
+#     class Meta:
+#         model = RideShare
+#         fields = ('driver', 'passengers','start_location','end_location',
+#                   'departure_date', 'rating', 'review')

@@ -6,7 +6,7 @@ from django.urls import reverse, reverse_lazy
 from http.client import responses
 from django.http import HttpResponse
 
-from rideshare.models import Rider, RideShare, Community
+from rideshare.models import Rider, RideShare, Community, Review
 from rideshare.forms import CommunityCreateForm, RideShareCreateForm
 
 
@@ -176,22 +176,12 @@ def BlockUser(request, slug, pk):
     block_user = get_object_or_404(Rider, pk=pk)
     # get community
     community = get_object_or_404(Community, slug=slug)
-<<<<<<< HEAD
-
-    if user == community.owner or user in community.moderators.all():
-
-        print("{} user added to {} blacklist".format(block_user, community))
-        community.blacklist.add(block_user)
-        community.save()
-        message = "{} user added to {} blacklist".format(block_user, community)
-    else:
-=======
     # check who's maing request
     if current_user == community.owner or current_user in community.moderators.all():
         # remove blocked user from members
         if block_user in community.members.all():
             community.members.remove(block_user)
-        # check if current user is trying to block themselves. 
+        # check if current user is trying to block themselves.
         if block_user == current_user:
             message = "You can't banned yourself from this community"
         elif block_user in community.blacklist.all():
@@ -201,8 +191,7 @@ def BlockUser(request, slug, pk):
             community.blacklist.add(block_user)
             community.save()
             message = "{} user added to {} blacklist".format(block_user, community)
-    else: 
->>>>>>> ab97d5cc02e7bd34a0fc47d6b6f0b0e49de81372
+    else:
         message = 'Request denied! You need to be owner or moderator to block a user'
 
     return render(request, 'blacklist.html', { 'message': message})
@@ -271,12 +260,7 @@ def AcceptMemberRequest(request, slug, pk):
 
     return render(request, 'blacklist.html', {'message': message})
 
-<<<<<<< HEAD
-def RateAndReviewRide(request, slug, pk):
-    pass
-=======
-
-# remove rideshare function slug=community slug, pk=rideshare id 
+# remove rideshare function slug=community slug, pk=rideshare id
 def RemoveRideShare(request, slug, pk):
     # get community
     community = get_object_or_404(Community, slug=slug)
@@ -296,8 +280,8 @@ def RemoveRideShare(request, slug, pk):
                 break
     else:
         message += "Community does not have any rides. "
-    
-    # get current user 
+
+    # get current user
     auth_user = get_object_or_404(Rider, pk=request.user.id)
     # check if user is authrorized to perform action
     if auth_user == community.owner or auth_user in community.moderators.all() and processed:
@@ -311,8 +295,33 @@ def RemoveRideShare(request, slug, pk):
             message = "Rideshare does not exist in the community"
     else:
         message += "Unable to delete Rideshare"
-    
-    
+
+
     return render(request, 'blacklist.html', {'message': message})
 
->>>>>>> ab97d5cc02e7bd34a0fc47d6b6f0b0e49de81372
+# >>>>>>> ab97d5cc02e7bd34a0fc47d6b6f0b0e49de81372
+
+# rate a rideshare slug=rideshare, pk=review number
+def RateAndReviewRide(request, slug, rideshare_id, rating):
+    message = ''
+    current_user = Rider.objects.get(id=request.user.id)
+    # get community
+    community = get_object_or_404(Community, slug=slug)
+    # rideshare
+    rideshare = get_object_or_404(RideShare, pk=rideshare_id)
+    # check if user is a member
+    if ((community.private != True) or (current_user in community.members.all())):
+            review = Review()
+            review.reviewer = current_user
+            review.rating = rating
+            review.review = "hello this is a review"
+            review.save()
+
+            rideshare.reviews.add(review)
+            rideshare.save()
+
+            message = 'Your rating has been saved!'
+    else:
+        message = 'You are not a member of this community!'
+
+    return render(request, 'blacklist.html', {'message': message})

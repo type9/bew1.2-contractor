@@ -16,7 +16,25 @@ class Rider(User):
     class Meta:
         proxy = True
 
+class Review(models.Model):
+    reviewer = models.ForeignKey(
+        Rider,
+        null=True,
+        related_name='driver_of_%(app_label)s_%(class)s',
+        on_delete=models.PROTECT,
+        help_text='The Rider who is offering to drive the trip'
+    ) # TODO: Ask dani what CASCADE means on delete
 
+    review = models.TextField(
+        null=True,
+        blank=True,
+        help_text="user review string",
+    )
+
+    rating = models.IntegerField(
+        null=True,
+        blank=True,
+    )
 
 
 class RideShare(models.Model):
@@ -66,19 +84,14 @@ class RideShare(models.Model):
         help_text='The cost the driver wishes to charge per passenger')
         # TODO: Make cost configurable
 
-    class Rate(models.IntegerChoices):
-        one_star = 1
-        two_stars = 2
-        three_stars = 3
-        four_stars = 4
-        five_stars = 5
-
-    rating = models.IntegerField(choices=Rate.choices)
-
-
-    review = models.TextField(
+    reviews = models.ManyToManyField(
+        Review,
         blank=True,
-        help_text='drivers and riders can share reviews of the trip')
+        null=True,
+        related_name='review_of_%(app_label)s_%(class)s',
+        help_text='review object from rider'
+    )
+
 
     @property
     def get_start(self):
@@ -100,6 +113,7 @@ class RideShare(models.Model):
         # r = requests.get(geocode_url)
         # return r.json()['results'][0]['formatted_address']
         return f'LONG:{long}, LAT:{lat}'
+
 
 
 class Community(models.Model):

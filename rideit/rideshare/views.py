@@ -171,11 +171,12 @@ class BlacklistView(DetailView):
 # Add user to blacklist
 def BlockUser(request, slug, pk):
     # user making request
-    user = request.user
+    current_user = request.user
     # block user
     block_user = get_object_or_404(Rider, pk=pk)
     # get community
     community = get_object_or_404(Community, slug=slug)
+<<<<<<< HEAD
 
     if user == community.owner or user in community.moderators.all():
 
@@ -184,6 +185,24 @@ def BlockUser(request, slug, pk):
         community.save()
         message = "{} user added to {} blacklist".format(block_user, community)
     else:
+=======
+    # check who's maing request
+    if current_user == community.owner or current_user in community.moderators.all():
+        # remove blocked user from members
+        if block_user in community.members.all():
+            community.members.remove(block_user)
+        # check if current user is trying to block themselves. 
+        if block_user == current_user:
+            message = "You can't banned yourself from this community"
+        elif block_user in community.blacklist.all():
+            message = "{} is already in {} blacklist".format(block_user, community)
+        else:
+            # add block user to blacklist
+            community.blacklist.add(block_user)
+            community.save()
+            message = "{} user added to {} blacklist".format(block_user, community)
+    else: 
+>>>>>>> ab97d5cc02e7bd34a0fc47d6b6f0b0e49de81372
         message = 'Request denied! You need to be owner or moderator to block a user'
 
     return render(request, 'blacklist.html', { 'message': message})
@@ -252,5 +271,48 @@ def AcceptMemberRequest(request, slug, pk):
 
     return render(request, 'blacklist.html', {'message': message})
 
+<<<<<<< HEAD
 def RateAndReviewRide(request, slug, pk):
     pass
+=======
+
+# remove rideshare function slug=community slug, pk=rideshare id 
+def RemoveRideShare(request, slug, pk):
+    # get community
+    community = get_object_or_404(Community, slug=slug)
+    # tracks if rideshare to be deleted exists in community
+    processed = False
+    message = ''
+    if (community.rideshares.all().count() != 0):
+        # loop over rides
+        for ride in community.rideshares.all():
+            # check if community ride equal to ride to be deleted
+            if ride.pk != pk:
+                message = "Ride does not exist in community"
+            else:
+                processed = True
+                # get rideshare
+                rideshare = get_object_or_404(RideShare, pk=pk)
+                break
+    else:
+        message += "Community does not have any rides. "
+    
+    # get current user 
+    auth_user = get_object_or_404(Rider, pk=request.user.id)
+    # check if user is authrorized to perform action
+    if auth_user == community.owner or auth_user in community.moderators.all() and processed:
+        if rideshare in community.rideshares.all():
+            message = "{} ".format(rideshare)
+            community.rideshares.remove(rideshare)
+            rideshare.delete()
+            community.save()
+            message += "has been deleted!"
+        else:
+            message = "Rideshare does not exist in the community"
+    else:
+        message += "Unable to delete Rideshare"
+    
+    
+    return render(request, 'blacklist.html', {'message': message})
+
+>>>>>>> ab97d5cc02e7bd34a0fc47d6b6f0b0e49de81372

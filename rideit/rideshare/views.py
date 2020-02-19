@@ -32,13 +32,16 @@ class CommunityDetailView(DetailView):
         ''' set boolian for blacklist t/f '''
         # get current user
         current_user = request.user
-        # stores all blacklist users
-        blacklisted_users = community.blacklist.all()
-        # loop over blacklist users
-        for blacklist_user in blacklisted_users:
-            # check if current blacklist user is current user
-            if blacklist_user == current_user:
-                return True   # blacklist user found return true
+        if current_user == community.owner:
+            return False
+        else:
+            # stores all blacklist users
+            blacklisted_users = community.blacklist.all()
+            # loop over blacklist users
+            for blacklist_user in blacklisted_users:
+                # check if current blacklist user is current user
+                if blacklist_user == current_user:
+                    return True   # blacklist user found return true
 
     def private_community_member(self, request, community):
         # get current user
@@ -86,11 +89,10 @@ class CommunityDetailView(DetailView):
 
         if private:
             message = "Community is private"
-            return render(request, 'blacklist.html', {'message': message})
-        elif banned:
-            message = "User is blocked from community"
-            return render(request, 'blacklist.html', {'message': message})
-
+            return render(request, 'blacklist.html', {'message': message })
+        elif banned == True:
+            message = "Access denied!"
+            return render(request, 'blacklist.html', {'message': message })
         else:
             rideshares = community.get_rideshares().get_queryset()
             return render(request, 'community-details.html', {
@@ -166,27 +168,86 @@ class BlacklistView(DetailView):
                       {"message": "Page is restricted"})
 
 
-# Add user to blocklist
+# Add user to blacklist
 def BlockUser(request, slug, pk):
     # user making request
     user = request.user
-
     # block user
     block_user = get_object_or_404(Rider, pk=pk)
-
     # get community
     community = get_object_or_404(Community, slug=slug)
-    # question = get_object_or_404(Question, pk=question_id)
 
-    # get user to be added to blacklist
     if user == community.owner or user in community.moderators.all():
-        # community.blacklist += block_user
-        print("{} user added to blacklist".format(block_user))
+
+        print("{} user added to {} blacklist".format(block_user, community))
         community.blacklist.add(block_user)
         community.save()
-        return render(request, 'blacklist.html',
-                      {'message': "User is blocked from community"})
+        message = "{} user added to {} blacklist".format(block_user, community)
+    else: 
+        message = 'Request denied! You need to be owner or moderator to block a user'
 
+    return render(request, 'blacklist.html', { 'message': message})
+
+
+# join private community
+def JoinCommunity(request, slug, pk=None):
+    # output message
+    message = ""
+    # user making request
+    if pk is None:
+        pk = request.user.id
+    user = get_object_or_404(Rider, pk=pk)
+    # get community
+    community = get_object_or_404(Community, slug=slug)
+    # check if community is private
+    if community.private == False:
+        message = "{}, this is an Open community! feel free to join {} community".format(user, community)
+    # check if user is banner from this community
+    elif user in community.blacklist.all():
+        message = "{} is banned from {} community".format(user, community)
+    # check if user is a member already
+    elif user in community.members.all():
+        message = "{} is a member of {} community already!".format(user, community)
+    # check if user is had already made a request
+    elif user in community.member_requests.all():
+        message = "Thank you for requesting to join {} again!".format(community)
+    # user is not in the community
+    else:   
+        community.member_requests.add(user)
+        # save user to community members requests 
+        community.save()
+        message = "{} send a request to join {} has been sent!".format(user, community)
+    # render message to user
+    return render(request, 'blacklist.html', {'message': message})
+
+# accespt user as memeber of community
+def AcceptMemberRequest(request, slug, pk):
+    # output message
+    message = ""
+    # user making request
+    auth_user = get_object_or_404(Rider, pk=request.user.id)
+    member = get_object_or_404(Rider, pk=pk)
+    # get community
+    community = get_object_or_404(Community, slug=slug)
+    # check if auth_user has access previllages
+    if auth_user == community.owner or auth_user in community.moderators.all():
+        # check if member is banned 
+        if member in community.blacklist.all():
+            message = "{} is banned from {} community".format(member, community)
+        elif member not in community.members.all():
+            # add memeber to member list
+            community.members.add(member)
+            # check if user had requested to be a member
+            if member in community.member_requests.all():
+                # remove member from member_requests
+                community.member_requests.remove(member)
+            # save community
+            community.save()
+            message = "{} has been saved as a member of {}".format(member, community)
+        else:
+            # member is already registedred as a member in this community
+            message = "{} is already a member of {} community".format(member, community)
     else:
-        return render(request, 'blacklist.html',
-                      {'message': 'Owner/Moderator Access Only'})
+        message = "Action denied! Unauthorized user."
+
+    return render(request, 'blacklist.html', {'message': message})

@@ -132,14 +132,20 @@ class Community(models.Model):
         related_name='BL_members_of_%(app_label)s_%(class)s',
         blank=True,
         help_text='The Riders that are allowed to create and participate in ridesharing in this community',
-
     )
 
+    # community private bool
     private = models.BooleanField(
         blank=True,
         null=True,
     )
 
+    member_requests = models.ManyToManyField(Rider,
+        symmetrical=False,
+        related_name='request_members_of_%(app_label)s_%(class)s',
+        blank=True,
+        help_text='Requests from riders to join a community',
+    )
 
     def __str__(self):
         return self.title

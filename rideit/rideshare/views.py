@@ -212,3 +212,31 @@ def JoinCommunity(request, slug):
         message = "Request to join {} has been sent!".format(community)
     # render message to user
     return render(request, 'blacklist.html', {'message': message})
+
+
+
+# accespt user as memeber of community
+def AcceptMemberRequest(request, slug, pk):
+    # output message
+    message = ""
+    # user making request
+    auth_user = get_object_or_404(Rider, pk=request.user.id)
+    member = get_object_or_404(Rider, pk=pk)
+    # get community
+    community = get_object_or_404(Community, slug=slug)
+    # check if auth_user has access previllages
+    if auth_user == community.owner or auth_user in community.moderators.all():
+        # add memeber to member list
+        community.members.add(member)
+        # check if user had requested to be a member
+        if member in community.member_requests.all():
+            # remove member from member_requests
+            community.member_requests.remove(member)
+        # save community
+        community.save()
+        message = "{} Has bees saved as a member of {}".format(member, community)
+        
+    else:
+        message = "Action denied! Unauthorized user."
+
+    return render(request, 'blacklist.html', {'message': message})

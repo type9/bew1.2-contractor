@@ -118,6 +118,14 @@
     color: #EEEEEE;
 }
 
+.community-card-title{
+    padding-left: 10px;
+}
+
+.community-card-subtitle{
+    margin-top: 10px;
+}
+
 /* profile card */
 
 .profile-card{
@@ -128,7 +136,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
 }
 
-.profile-card .profile-card-pic{
+.profile-card-pic{
     height: 40px;
     width: auto;
     border-radius: 50%;

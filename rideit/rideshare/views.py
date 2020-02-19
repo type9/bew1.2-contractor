@@ -259,3 +259,44 @@ def AcceptMemberRequest(request, slug, pk):
         message = "Action denied! Unauthorized user."
 
     return render(request, 'blacklist.html', {'message': message})
+
+
+# remove rideshare function slug=community slug, pk=rideshare id 
+def RemoveRideShare(request, slug, pk):
+    # get community
+    community = get_object_or_404(Community, slug=slug)
+    # tracks if rideshare to be deleted exists in community
+    processed = False
+    message = ''
+    if (community.rideshares.all().count() != 0):
+        # loop over rides
+        for ride in community.rideshares.all():
+            # check if community ride equal to ride to be deleted
+            if ride.pk != pk:
+                message = "Ride does not exist in community"
+            else:
+                processed = True
+                # get rideshare
+                rideshare = get_object_or_404(RideShare, pk=pk)
+                break
+    else:
+        message += "Community does not have any rides. "
+    
+    # get current user 
+    auth_user = get_object_or_404(Rider, pk=request.user.id)
+    # check if user is authrorized to perform action
+    if auth_user == community.owner or auth_user in community.moderators.all() and processed:
+        if rideshare in community.rideshares.all():
+            message = "{} ".format(rideshare)
+            community.rideshares.remove(rideshare)
+            rideshare.delete()
+            community.save()
+            message += "has been deleted!"
+        else:
+            message = "Rideshare does not exist in the community"
+    else:
+        message += "Unable to delete Rideshare"
+    
+    
+    return render(request, 'blacklist.html', {'message': message})
+

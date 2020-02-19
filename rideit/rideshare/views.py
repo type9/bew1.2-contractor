@@ -32,13 +32,16 @@ class CommunityDetailView(DetailView):
         ''' set boolian for blacklist t/f '''
         # get current user
         current_user = request.user
-        # stores all blacklist users
-        blacklisted_users = community.blacklist.all()
-        # loop over blacklist users
-        for blacklist_user in blacklisted_users:
-            # check if current blacklist user is current user
-            if blacklist_user == current_user:
-                return True   # blacklist user found return true
+        if current_user == community.owner:
+            return False
+        else:
+            # stores all blacklist users
+            blacklisted_users = community.blacklist.all()
+            # loop over blacklist users
+            for blacklist_user in blacklisted_users:
+                # check if current blacklist user is current user
+                if blacklist_user == current_user:
+                    return True   # blacklist user found return true
 
     def private_community_member(self, request, community):
         # get current user
@@ -169,7 +172,6 @@ class BlacklistView(DetailView):
 def BlockUser(request, slug, pk):
     # user making request
     user = request.user
-
     # block user
     block_user = get_object_or_404(Rider, pk=pk)
     # get community
@@ -247,5 +249,5 @@ def AcceptMemberRequest(request, slug, pk):
             message = "{} is already a member of {} community".format(member, community)
     else:
         message = "Action denied! Unauthorized user."
-    
+
     return render(request, 'blacklist.html', {'message': message})

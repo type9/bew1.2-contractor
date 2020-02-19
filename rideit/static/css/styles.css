@@ -54,6 +54,10 @@
     padding-top: 40px;
 }
 
+.community-detail-profile-wrapper{
+    padding-top: 20px;
+}
+
 .community-details-home{
     background-color: #EEEEEE;
     padding-bottom: 200px;
@@ -61,6 +65,12 @@
 
 .community-rides-wrapper{
     padding-top: 60px;
+}
+
+/* community detail page */
+
+.community-description{
+    padding-top: 10px;
 }
 
 /* buttons */

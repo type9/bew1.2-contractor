@@ -3,14 +3,18 @@ from rideshare.views import CommunityListView, CommunityDetailView, CommunityCre
 from rideshare.views import RideShareDetailView, RideShareCreateView, BlacklistView
 from rideshare.views import BlockUser, JoinCommunity
 
+'''
+Abbreviation Key:
+    cm is community
+    rs is rideshare
+                        '''
 
 urlpatterns = [
     path('', CommunityListView.as_view(), name='community-list-page'),
     path('cm/<str:slug>/', CommunityDetailView.as_view(), name='community-details-page'),
     path('createcommunity/', CommunityCreateView.as_view(), name='community-create-page'),
-
     path('rs/<int:pk>', RideShareDetailView.as_view(), name='rideshare-details-page'),
-    path('cm/<str:slug>/newrs', RideShareCreateView.as_view(), name='rideshare-create-page'),
+    path('cm/<str:slug>/newrs', RideShareCreateView.as_view(),name='rideshare-create-page'),
 
     # blacklist message route
     path('cm/blacklist/<str:slug>', BlacklistView.as_view(), name='blacklist-page'),
@@ -18,5 +22,4 @@ urlpatterns = [
     path('cm/blacklist/<str:slug>/<int:pk>', BlockUser, name='blacklist-page'),
     # request to join private community
     path('cm/join/<str:slug>', JoinCommunity, name='blacklist-page'),
-
 ]

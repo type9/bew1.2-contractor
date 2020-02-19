@@ -15,8 +15,6 @@ class CommunityListView(ListView):
     ''' Index page for communities'''
     model = Community
 
-
-
     def get(self, request):
         '''GET a list of communities'''
         communities = self.get_queryset().all()
@@ -24,7 +22,6 @@ class CommunityListView(ListView):
         return render(request, 'community-list.html', {
             'communities': communities,
         })
-
 
 
 class CommunityDetailView(DetailView):
@@ -41,8 +38,7 @@ class CommunityDetailView(DetailView):
         for blacklist_user in blacklisted_users:
             # check if current blacklist user is current user
             if blacklist_user == current_user:
-                return True # blacklist user found return true
-
+                return True   # blacklist user found return true
 
     def private_community_member(self, request, community):
         # get current user
@@ -71,12 +67,12 @@ class CommunityDetailView(DetailView):
         print("_______ private __________")
         print(private)
 
-        if private == True:
+        if private:
             if current_user == owner or current_user in moderators or current_user in members:
                 return False
-            else: 
+            else:
                 return True
-            
+
         # mods & owners automatically included in whitelist
         # get whitelist
         # if user in whitelist, allow access
@@ -88,21 +84,18 @@ class CommunityDetailView(DetailView):
         banned = self.open_communities(request, community)
         private = self.private_community_member(request, community)
 
-        if private == True:
+        if private:
             message = "Community is private"
             return render(request, 'blacklist.html', {'message': message })
         elif banned == True:
             message = "Access denied!"
             return render(request, 'blacklist.html', {'message': message })
-            
         else:
             rideshares = community.get_rideshares().get_queryset()
             return render(request, 'community-details.html', {
                 'community': community,
                 'rideshares': rideshares
             })
-
-        
 
 
 class CommunityCreateView(CreateView):
@@ -119,7 +112,8 @@ class CommunityCreateView(CreateView):
             community = form.save(commit=False)
             community.owner = Rider.objects.get(id=request.user.id)
             community.save()
-            return HttpResponseRedirect(reverse('community-details-page', args=[community.slug]))
+            return HttpResponseRedirect(reverse('community-details-page',
+                                                args=[community.slug]))
         return render(request, 'community-create.html', {'form': form})
 
 
@@ -159,35 +153,38 @@ class RideShareCreateView(CreateView):
             rideshare.save()
 
             community.rideshares.add(rideshare)
-            return HttpResponseRedirect(reverse('rideshare-details-page', args=[rideshare.id]))
+            return HttpResponseRedirect(reverse('rideshare-details-page',
+                                                args=[rideshare.id]))
         return render(request, 'rideshare-create.html', {'form': form})
 
 
 class BlacklistView(DetailView):
 
-
     def get(self, request):
-        return render(request, 'blacklist.html', {"message": "Page is restricted"})
+        return render(request, 'blacklist.html',
+                      {"message": "Page is restricted"})
 
 
 # Add user to blacklist
 def BlockUser(request, slug, pk):
     # user making request
     user = request.user
-    # block user 
+
+    # block user
     block_user = get_object_or_404(Rider, pk=pk)
     # get community
     community = get_object_or_404(Community, slug=slug)
-    # get user to be added to blacklist 
+
     if user == community.owner or user in community.moderators.all():
 
         print("{} user added to {} blacklist".format(block_user, community))
         community.blacklist.add(block_user)
         community.save()
-        return render(request, 'blacklist.html', { 'message': "{} user added to {} blacklist".format(block_user, community)})
-
+        message = "{} user added to {} blacklist".format(block_user, community)
     else: 
-        return render(request, 'blacklist.html', {'message': 'Request denied! You need to be owner or moderator to block user'})
+        message = 'Request denied! You need to be owner or moderator to block a user'
+
+    return render(request, 'blacklist.html', { 'message': message})
 
 
 # join private community
@@ -215,4 +212,3 @@ def JoinCommunity(request, slug):
         message = "Request to join {} has been sent!".format(community)
     # render message to user
     return render(request, 'blacklist.html', {'message': message})
-

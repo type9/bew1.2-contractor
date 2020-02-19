@@ -60,7 +60,25 @@ class RideShare(models.Model):
         help_text='The passengers who will be embarking on this trip'
     )
 
-    cost_per_passenger = models.DecimalField(decimal_places=2, max_digits=5, help_text='The cost the driver wishes to charge per passenger') # TODO: Make cost configurable
+    cost_per_passenger = models.DecimalField(
+        decimal_places=2,
+        max_digits=5,
+        help_text='The cost the driver wishes to charge per passenger')
+        # TODO: Make cost configurable
+
+    class Rate(models.IntegerChoices):
+        one_star = 1
+        two_stars = 2
+        three_stars = 3
+        four_stars = 4
+        five_stars = 5
+
+    rating = models.IntegerField(choices=Rate.choices)
+
+
+    review = models.TextField(
+        blank=True,
+        help_text='drivers and riders can share reviews of the trip')
 
     @property
     def get_start(self):
@@ -82,6 +100,7 @@ class RideShare(models.Model):
         # r = requests.get(geocode_url)
         # return r.json()['results'][0]['formatted_address']
         return f'LONG:{long}, LAT:{lat}'
+
 
 class Community(models.Model):
     title = models.CharField(max_length=settings.COMMUNITY_NAME_MAX_LEN, unique=True, help_text='Unique name for you rideshare community')

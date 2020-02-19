@@ -183,7 +183,7 @@ def BlockUser(request, slug, pk):
         community.blacklist.add(block_user)
         community.save()
         message = "{} user added to {} blacklist".format(block_user, community)
-    else: 
+    else:
         message = 'Request denied! You need to be owner or moderator to block a user'
 
     return render(request, 'blacklist.html', { 'message': message})
@@ -212,9 +212,9 @@ def JoinCommunity(request, slug, pk=None):
     elif user in community.member_requests.all():
         message = "Thank you for requesting to join {} again!".format(community)
     # user is not in the community
-    else:   
+    else:
         community.member_requests.add(user)
-        # save user to community members requests 
+        # save user to community members requests
         community.save()
         message = "{} send a request to join {} has been sent!".format(user, community)
     # render message to user
@@ -231,7 +231,7 @@ def AcceptMemberRequest(request, slug, pk):
     community = get_object_or_404(Community, slug=slug)
     # check if auth_user has access previllages
     if auth_user == community.owner or auth_user in community.moderators.all():
-        # check if member is banned 
+        # check if member is banned
         if member in community.blacklist.all():
             message = "{} is banned from {} community".format(member, community)
         elif member not in community.members.all():
@@ -251,3 +251,6 @@ def AcceptMemberRequest(request, slug, pk):
         message = "Action denied! Unauthorized user."
 
     return render(request, 'blacklist.html', {'message': message})
+
+def RateAndReviewRide(request, slug, pk):
+    pass

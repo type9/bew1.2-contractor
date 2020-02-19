@@ -200,6 +200,9 @@ def JoinCommunity(request, slug, pk=None):
     # check if community is private
     if community.private == False:
         message = "{}, this is an Open community! feel free to join {} community".format(user, community)
+    # check if user is banner from this community
+    elif user in community.blacklist.all():
+        message = "{} is banned from {} community".format(user, community)
     # check if user is a member already
     elif user in community.members.all():
         message = "{} is a member of {} community already!".format(user, community)
@@ -226,7 +229,10 @@ def AcceptMemberRequest(request, slug, pk):
     community = get_object_or_404(Community, slug=slug)
     # check if auth_user has access previllages
     if auth_user == community.owner or auth_user in community.moderators.all():
-        if member not in community.members.all():
+        # check if member is banned 
+        if member in community.blacklist.all():
+            message = "{} is banned from {} community".format(member, community)
+        elif member not in community.members.all():
             # add memeber to member list
             community.members.add(member)
             # check if user had requested to be a member
@@ -239,7 +245,6 @@ def AcceptMemberRequest(request, slug, pk):
         else:
             # member is already registedred as a member in this community
             message = "{} is already a member of {} community".format(member, community)
-        
     else:
         message = "Action denied! Unauthorized user."
 

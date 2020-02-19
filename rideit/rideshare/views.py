@@ -27,7 +27,7 @@ class CommunityDetailView(DetailView):
     def get(self, request, slug):
         community = self.get_queryset().get(slug__iexact=slug)
         rideshares = community.get_rideshares().get_queryset()
-        return render(request, 'community-details.html', {
+        return render(request, 'community_details.html', {
             'community': community,
             'rideshares': rideshares
         })

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'partials/navbar.html' %}
+
+{% if user.is_authenticated %}
+
+    <div class="community-details-home">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <div class="community-detail-title-wrapper">
+                        <h2>{{ community.title }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h6 class="community-detail-subtitle mb-2 text-muted"><span class="fas fa-map-pin"></span> Sunset District, San Francisco&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fas fa-users"></span> 58 Members </h6>
+                </div>
+            </div>
+            <div class="row">
+                {% for ride in rideshares %}
+                    {% include 'partials/rideshare_card.html' %}
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+{% else %}
+    {% include 'partials/community_search.html' %}
+{% endif %}
+
+{% endblock %}

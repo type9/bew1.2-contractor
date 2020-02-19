@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block buttons %}
-    <a href="{% url 'rideshare-create-page' community.slug %}" class="btn btn-success ml-4">Start a rideshare</a>
+    <a href="{% url 'rideshare:rideshare-create-page' community.slug %}" class="btn btn-success ml-4">Start a rideshare</a>
 {% endblock %}
 {% block content%}
     <h3>{{community.title}}</h3>

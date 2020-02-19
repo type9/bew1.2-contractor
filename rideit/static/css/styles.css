@@ -44,7 +44,11 @@
     padding-top: 80px;
     height: 100vh;
     background-color: #EEEEEE;
-    
+}
+
+.community-details-home{
+    background-color: #EEEEEE;
+    padding-bottom: 200px;
 }
 
 /* buttons */
@@ -126,6 +130,13 @@
     border-radius: 40px;
 }
 
+/* community detail card */
+
+.community-detail-title-wrapper{
+    padding-top: 50px;
+}
+
+
 /* create community card */
 
 .create-community-card{
@@ -137,5 +148,3 @@
 .create-community-title {
     padding-bottom: 10px;
 }
-
-.create-community-form-wrapper #id-

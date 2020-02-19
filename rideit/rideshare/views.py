@@ -171,18 +171,26 @@ class BlacklistView(DetailView):
 # Add user to blacklist
 def BlockUser(request, slug, pk):
     # user making request
-    user = request.user
+    current_user = request.user
     # block user
     block_user = get_object_or_404(Rider, pk=pk)
     # get community
     community = get_object_or_404(Community, slug=slug)
-
-    if user == community.owner or user in community.moderators.all():
-
-        print("{} user added to {} blacklist".format(block_user, community))
-        community.blacklist.add(block_user)
-        community.save()
-        message = "{} user added to {} blacklist".format(block_user, community)
+    # check who's maing request
+    if current_user == community.owner or current_user in community.moderators.all():
+        # remove blocked user from members
+        if block_user in community.members.all():
+            community.members.remove(block_user)
+        # check if current user is trying to block themselves. 
+        if block_user == current_user:
+            message = "You can't banned yourself from this community"
+        elif block_user in community.blacklist.all():
+            message = "{} is already in {} blacklist".format(block_user, community)
+        else:
+            # add block user to blacklist
+            community.blacklist.add(block_user)
+            community.save()
+            message = "{} user added to {} blacklist".format(block_user, community)
     else: 
         message = 'Request denied! You need to be owner or moderator to block a user'
 

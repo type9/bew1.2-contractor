@@ -42,15 +42,33 @@
                         {% endfor %}
                     </div>
                 </div>
+
                 <div class="col-md-4">
-                    <div class="community-detail-profile-wrapper sticky-top">
-                        <div class="row">
-                            <div class="col-md-12">
-                                {% include 'partials/profile_card_community.html' %}
+                    <div class="community-detail-user-info-wrapper sticky-top">
+                        <div class="community-detail-profile-wrapper">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% include 'partials/profile_card_community.html' %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="community-detail-my-rides-wrapper sticky-top">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="my-rides-title-wrapper text-center" style="padding-top: 20px;">
+                                        <h3> Your Rides </h3>
+                                    </div>
+                                    <hr>
+                                    {% include 'partials/my_ride_card.html' %}
+                                    {% include 'partials/my_ride_card.html' %}
+                                    {% include 'partials/my_ride_card.html' %}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
 
             </div>
 

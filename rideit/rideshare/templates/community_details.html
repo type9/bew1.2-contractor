@@ -21,9 +21,27 @@
                 </div>
             </div>
             <div class="row">
-                {% for ride in rideshares %}
-                    {% include 'partials/rideshare_card.html' %}
-                {% endfor %}
+                <div class="col-md-8">
+                    <div class="community-rides-wrapper">
+                        {% for ride in rideshares %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% include 'partials/rideshare_card.html' %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="ur-profile-wrapper sticky-top">
+                        <div class="row">
+                            <div class="col-md-12">
+                                {% include 'partials/profile_card_community.html' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>

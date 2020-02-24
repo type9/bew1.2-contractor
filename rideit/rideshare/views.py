@@ -71,7 +71,7 @@ class RideShareCreateView(CreateView):
             'form': RideShareCreateForm(),
             'slug': slug,
         }
-        return render(request, 'rideshare-create.html', context)
+        return render(request, 'create_rideshare.html', context)
 
     def post(self, request, *args, **kwargs):
         form = RideShareCreateForm(request.POST)

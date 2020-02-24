@@ -33,6 +33,16 @@
     border-left: None;
 }
 
+.signup-navbar{
+    background-color: #EEEEEE;
+}
+
+.signup-arrow-wrapper{
+    padding-left: 20px;
+    padding-top: 20px;
+    color: #272727;
+}
+
 /* home pages */
 
 .rideshare-home{

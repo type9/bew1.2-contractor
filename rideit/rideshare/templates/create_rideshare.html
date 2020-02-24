@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'partials/navbar.html' %}
+
+<div class="create-ride-wrapper">
+    <div class="create-ride-form-wrapper">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <input type="hidden" name="slug" value="{{slug}}">
+                    <input type="submit" value="Submit Rideshare">
+                </form>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

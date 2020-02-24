@@ -10,26 +10,38 @@
 
     <div class="create-community-home">
         <div class="container">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
-                <div class="card create-community-card">
-                    <div class="card-body">
-                        <h4 class="card-title create-community-title text-center">Create Your Community!</h4>
-                        <div class="create-community-form-wrapper">
-                            <form method="POST">
-                                {% csrf_token %}
-                                {{ form.as_p }}
-                                <input type="submit" value="Submit Community">
-                            </form>
-                        </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 text-center">
+
+                    <h4 class="card-title create-community-title text-center">Create Your Community!</h4>
+                    <div class="create-community-form-wrapper">
+                        <form method="post" class="mx-auto">
+                            {% csrf_token %}
+
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <p class="text-danger">{{ error }}</p>
+                                {% endfor %}
+                                <div class="form-group row d-flex justify-content-center">
+                                    {% if 'title' in field.name %}
+                                        <input class="form-control typical-field" type="text" name="{{ field.name }}" placeholder="{{ field.label|title }}" required></input>
+                                    {% else %}
+                                        <textarea cols="30" rows="10" class="form-control typical-field" name="{{ field.name }}" placeholder="{{ field.label|title }}" required></textarea>
+                                    {% endif %}
+                                </div>
+
+                            {% endfor %}
+
+                            <div class="form-group" style="padding-top: 10px">
+                                <button type="submit" class="btn btn-dark mb-2 green-button">Create Community</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-1">
-
+                <div class="col-md-4"></div>
             </div>
         </div>
-
     </div>
 
 

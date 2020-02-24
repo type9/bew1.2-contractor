@@ -4,6 +4,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.urls import reverse, reverse_lazy
 
+from django.db import models
+
 from rideshare.models import Rider, RideShare, Community
 from rideshare.forms import CommunityCreateForm, RideShareCreateForm
 
@@ -15,6 +17,16 @@ class CommunityListView(ListView):
 
     def get(self, request):
         '''GET a list of communities'''
+        user_owned_communitites = Community.objects.filter(owner=request.user)
+        print("Request username: {}".format(request.user.username))
+
+        queryset = Community.objects.all()
+        queryset = queryset.filter(members__username='apnovichkov')
+        # user_member_communitites = Community.objects.filter(models.Q(members__username=request.user.username) & models.Q(title="SF Downtown Commuter"))
+
+        print("User member communities: {}".format(queryset))
+
+
         communities = self.get_queryset().all()
         return render(request, 'rideshare_home.html', {
             'communities': communities
@@ -46,8 +58,8 @@ class CommunityCreateView(CreateView):
             community = form.save(commit=False)
             community.owner = Rider.objects.get(id=request.user.id)
             community.save()
-            return HttpResponseRedirect(reverse('community-details-page', args=[community.slug]))
-        return render(request, 'community-create.html', {'form': form})
+            return HttpResponseRedirect(reverse('rideshare:community-details-page', args=[community.slug]))
+        return render(request, 'create_community.html', {'form': form})
 
 class RideShareDetailView(DetailView):
     '''Rideshare detail view'''
@@ -85,4 +97,4 @@ class RideShareCreateView(CreateView):
 
             community.rideshares.add(rideshare)
             return HttpResponseRedirect(reverse('rideshare-details-page', args=[rideshare.id]))
-        return render(request, 'rideshare-create.html', {'form': form})
+        return render(request, 'create_rideshare.html', {'form': form})

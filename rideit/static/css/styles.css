@@ -1,3 +1,18 @@
+/* general things */
+.typical-field{
+    background-color: transparent;
+    color: #272727
+}
+
+
+/* buttons */
+
+.green-button{
+    background-color: #1B8366;
+    color: #EEEEEE;
+    border-color: #1B8366
+}
+
 /* navbar */
 .rideshare-navbar{
     background-color: #EEEEEE;

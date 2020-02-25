@@ -79,6 +79,11 @@
     padding-top: 40px;
 }
 
+.community-detail-user-info-wrapper{
+    position: relative;
+    top: 0;
+}
+
 .community-detail-profile-wrapper{
     padding-top: 40px;
 }
@@ -187,9 +192,32 @@
     margin-top: 10px;
 }
 
+/* my ride card */
+
+.my-ride-card{
+    margin-top: 20px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    border-color: #f4f4f4;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.my-rides-wrapper{
+    overflow: scroll;
+    height: 40vh;
+    padding: 10px;
+}
+
+.my-rides-title-wrapper{
+    padding-top: 20px;
+}
+
 /* profile card */
 
 .profile-card{
+    margin-top: 60px;
     margin-bottom: 20px;
     border-radius: 20px;
     background-color: #f4f4f4;

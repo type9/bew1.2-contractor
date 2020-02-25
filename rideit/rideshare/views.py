@@ -17,20 +17,23 @@ class CommunityListView(ListView):
 
     def get(self, request):
         '''GET a list of communities'''
-        user_owned_communitites = Community.objects.filter(owner=request.user)
-        print("Request username: {}".format(request.user.username))
+        if request.user.is_authenticated:
+            user_owned_communities = Community.objects.filter(owner=request.user)
+            print("Request username: {}".format(request.user.username))
 
-        queryset = Community.objects.all()
-        queryset = queryset.filter(members__username='apnovichkov')
-        # user_member_communitites = Community.objects.filter(models.Q(members__username=request.user.username) & models.Q(title="SF Downtown Commuter"))
+            rider = Rider.objects.get(id=request.user.id)
+            print("Rider: {}".format(rider.username))
+            user_joined_communities = rider.get_communities(request.user)
+            print("User joined communities: {}".format(user_joined_communities))
 
-        print("User member communities: {}".format(queryset))
-
-
-        communities = self.get_queryset().all()
-        return render(request, 'rideshare_home.html', {
-            'communities': communities
-        })
+            communities = self.get_queryset().all()
+            return render(request, 'rideshare_home.html', {
+                'communities': communities,
+                'user_joined_communities': user_joined_communities,
+                'user_owned_communities': user_owned_communities
+            })
+        else:
+            return render(request, 'rideshare_home.html')
 
 class CommunityDetailView(DetailView):
     '''Community page'''

@@ -17,6 +17,9 @@ class Rider(User):
         proxy = True
 
     # TODO -> Add Number, Age, ProfilePic
+    def get_communities(self, user_rider):
+        communities = [u.community for u in UserToCommunity.objects.filter(user=user_rider)]
+        return communities
 
 
 class RideShare(models.Model):
@@ -128,6 +131,9 @@ class Community(models.Model):
     def __str__(self):
         return self.title
 
+    # def get_members(self, member_username):
+    #     return self.
+
     def get_absolute_url(self):
         """ Returns a fully-qualified path for a page (/my-community). """
         path_components = {'slug': self.slug}
@@ -141,3 +147,13 @@ class Community(models.Model):
 
     def get_rideshares(self):
         return self.rideshares
+
+    def get_members(self, input_community):
+        members = RiderToCommunity.objects.filter(community=input_community)
+        return members
+
+class UserToCommunity(models.Model):
+    """Relationship between rider and community"""
+
+    user = models.ForeignKey(User, related_name="rider", default=1, on_delete=models.CASCADE)
+    community = models.ForeignKey(Community, related_name="community", default=1, on_delete=models.CASCADE)

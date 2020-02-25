@@ -72,7 +72,7 @@
 }
 
 .ur-communities-wrapper{
-    padding-top: 80px;
+    padding-top: 70px;
 }
 
 .ur-profile-wrapper{
@@ -90,6 +90,42 @@
 
 .community-rides-wrapper{
     padding-top: 80px;
+}
+
+.tab {
+    overflow: hidden;
+}
+
+.tabcontent {
+    display: none;
+    padding-top: 15px;
+    -webkit-animation: fadeEffect .5s;
+    animation: fadeEffect .5s;
+}
+
+/* Fade in tabs */
+@-webkit-keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.community-tab{
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.community-tab:focus{
+    outline: none;
+}
+
+.tab button.active {
+    text-decoration: underline;
+    text-underline-position: under;
 }
 
 /* community detail page */
@@ -206,4 +242,27 @@
 
 .create-community-title {
     padding-bottom: 10px;
+}
+
+
+/* user owned communities */
+.user-owned-community-card{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: #f1f1f1;
+    border-color: #f4f4f4;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.user-owned-communities-title{
+    padding-top: 20px;
+}
+
+.user-owned-community-card .see-more-button{
+    margin-top: 15px;
+    border-radius: 20px;
+    height: 40px;
+    background-color: #E9AE0B;
+    color: #FFFFFF;
 }

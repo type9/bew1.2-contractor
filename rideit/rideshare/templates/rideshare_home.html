@@ -14,11 +14,55 @@
                     <div class="ur-communities-wrapper">
                         {% if communities %}
                             <div class="row text-center" style="padding-top: 20px">
-                                {% for community in communities %}
-                                    <div class="col-md-12">
-                                        {% include 'partials/community_card.html' %}
+                                <div class="col-md-12 text-center">
+                                    <div class="tab">
+                                        <button class="tablinks community-tab btn" onclick="openCommunities(event, 'JoinedCommunities'); this.blur();"><h5>Joined Communities</h5></button>
+                                        <button class="tablinks community-tab btn" onclick="openCommunities(event, 'PopularCommunities'); this.blur();"><h5>Popular Communities</h5></button>
                                     </div>
-                                {% endfor %}
+
+                                    <div id="JoinedCommunities" class="tabcontent">
+                                        <div class="row">
+                                            {% for community in user_joined_communities %}
+                                                <div class="col-md-12">
+                                                    {% include 'partials/community_card.html' %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div id="PopularCommunities" class="tabcontent">
+                                        <div class="row">
+                                            {% for community in communities %}
+                                                <div class="col-md-12">
+                                                    {% include 'partials/community_card.html' %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <script>
+
+                                    tabcontent = document.getElementsByClassName("tabcontent");
+                                    tabcontent[1].style.display = "block"
+
+                                    tablinks = document.getElementsByClassName("tablinks");
+                                    tablinks[1].className += " active";
+
+                                    function openCommunities(evt, communityType) {
+                                        var i, tabcontent, tablinks;
+                                        tabcontent = document.getElementsByClassName("tabcontent");
+                                        for (i = 0; i < tabcontent.length; i++) {
+                                            tabcontent[i].style.display = "none";
+                                        }
+                                        tablinks = document.getElementsByClassName("tablinks");
+                                        for (i = 0; i < tablinks.length; i++) {
+                                            tablinks[i].className = tablinks[i].className.replace(" active", "");
+                                        }
+                                        document.getElementById(communityType).style.display = "block";
+                                        evt.currentTarget.className += " active";
+                                    }
+                                    </script>
+                                </div>
                             </div>
                         {% endif %}
                     </div>
@@ -31,6 +75,18 @@
                                 {% include 'partials/profile_card.html' %}
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="user-owned-communities-title text-center">
+                                    <h3>Your Communities</h3>
+                                </div>
+
+                                {% for community in user_owned_communities %}
+                                    {% include 'partials/small_community_card.html' %}
+                                {% endfor %}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 

@@ -1,5 +1,3 @@
-import requests
-
 from django.db import models
 
 from django.conf import settings
@@ -14,7 +12,15 @@ class Location(models.Model):
 
 class Rider(User):
     class Meta:
+        """Meta Class"""
+
         proxy = True
+
+    # first_name = models.CharField(default="", max_length=32, help_text='First name')
+    # last_name = models.CharField(default="", max_length=32, help_text='Last name')
+
+    # profile_pic = models.ImageField(upload_to="media/profile_pics", max_length=500, default="", null=True)
+    # number = models.CharField(default="", max_length=10, help_text="Mobile Phone Number")
 
     # TODO -> Add Number, Age, ProfilePic
     def get_communities(self, user_rider):

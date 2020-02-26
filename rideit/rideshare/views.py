@@ -1,10 +1,11 @@
+from django.conf import settings
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.urls import reverse, reverse_lazy
 
-from rideshare.models import Rider, RideShare, Community
+from rideshare.models import Rider, RideShare, Community, RideTrip
 from rideshare.forms import CommunityCreateForm, RideShareCreateForm
 
 
@@ -69,6 +70,9 @@ class RideShareCreateView(CreateView):
         context = {
             'form': RideShareCreateForm(),
             'slug': slug,
+            'key': settings.GOOGLE_MAPS_API_KEY,
+            'default_lat': -25.344,
+            'default_lng': 131.036,
         }
         return render(request, 'rideshare-create.html', context)
 
@@ -78,10 +82,18 @@ class RideShareCreateView(CreateView):
         community = Community.objects.get(slug=community_slug)
 
         if form.is_valid() and community is not None:
-            rideshare = form.save(commit=False)
-            rideshare.driver = Rider.objects.get(id=request.user.id)
-            rideshare.save()
+            new_rs = RideShare()
+            new_trip = RideTrip()
+            new_trip.start = form.cleaned_data['start_location']
+            new_trip.end = form.cleaned_data['end_location']
 
-            community.rideshares.add(rideshare)
-            return HttpResponseRedirect(reverse('rideshare-details-page', args=[rideshare.id]))
+            new_rs.trip = new_trip
+            new_rs.driver = Rider.objects.get(id=request.user.id)
+            new_rs.departure_date = form.cleaned_data['departure_date']
+            new_rs.cost_per_passenger = form.cleaned_data['cost_per_passenger']
+
+            new_rs.save()
+
+            community.rideshares.add(new_rs)
+            return HttpResponseRedirect(reverse('rideshare-details-page', args=[new_rs.id]))
         return render(request, 'rideshare-create.html', {'form': form})

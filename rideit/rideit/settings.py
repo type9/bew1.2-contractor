@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+import dotenv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+     'django.contrib.gis',
+    'world',
     # REST Framework
     'rest_framework',
     # Authentication
@@ -45,7 +47,7 @@ INSTALLED_APPS = [
     # Rideshare
     'rideshare',
     # Third party
-    'mapbox_location_field',
+    'location_field.apps.DefaultConfig',
 ]
 
 MIDDLEWARE = [
@@ -88,7 +90,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+    'geo': {
+         'ENGINE': 'django.contrib.gis.db.backends.postgis',
+         'NAME': 'geodjango',
+         'USER': 'geo',
+    },
 }
 
 
@@ -124,12 +131,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-# MapBox Config
-MAPBOX_KEY = "REPLACEME"
-
-# GoogleMaps Config
-GOOGLE_API_KEY = "REPLACEME"
-
+# Google Config
+GOOGLE_MAPS_API_KEY = "AIzaSyDC1iFtKOikdXvnlMJdJJUodP4HBhJn6cc"
+# Location config
+LOCATION_FIELD = {
+    "provider.google.api_key": GOOGLE_MAPS_API_KEY,
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

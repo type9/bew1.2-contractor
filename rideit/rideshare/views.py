@@ -161,12 +161,12 @@ class RideShareCreateView(CreateView):
         return render(request, 'rideshare-create.html', {'form': form})
 
 
+# blacklist default view
 class BlacklistView(DetailView):
 
     def get(self, request):
         return render(request, 'blacklist.html',
                       {"message": "Page is restricted"})
-
 
 # Add user to blacklist
 def BlockUser(request, slug, pk):
@@ -195,7 +195,6 @@ def BlockUser(request, slug, pk):
         message = 'Request denied! You need to be owner or moderator to block a user'
 
     return render(request, 'blacklist.html', { 'message': message})
-
 
 # join private community
 def JoinCommunity(request, slug, pk=None):
@@ -272,7 +271,7 @@ def RemoveRideShare(request, slug, pk):
         for ride in community.rideshares.all():
             # check if community ride equal to ride to be deleted
             if ride.pk != pk:
-                message = "Ride does not exist in community"
+                message = "Ride does not exist in community! "
             else:
                 processed = True
                 # get rideshare
@@ -299,8 +298,6 @@ def RemoveRideShare(request, slug, pk):
 
     return render(request, 'blacklist.html', {'message': message})
 
-# >>>>>>> ab97d5cc02e7bd34a0fc47d6b6f0b0e49de81372
-
 # rate a rideshare slug=rideshare, pk=review number
 def RateAndReviewRide(request, slug, rideshare_id, rating):
     message = ''
@@ -312,9 +309,13 @@ def RateAndReviewRide(request, slug, rideshare_id, rating):
     # check if user is a member
     if ((community.private != True) or (current_user in community.members.all())):
             review = Review()
+            
+            # TODO: update values to get from form
             review.reviewer = current_user
             review.rating = rating
             review.review = "hello this is a review"
+            # TODO: end of todo
+
             review.save()
 
             rideshare.reviews.add(review)
@@ -324,4 +325,53 @@ def RateAndReviewRide(request, slug, rideshare_id, rating):
     else:
         message = 'You are not a member of this community!'
 
+    return render(request, 'blacklist.html', {'message': message})
+
+# change community privacy
+def SetCommunityPrivacy(request, slug, state):
+
+    message = ''
+    # get community
+    community = get_object_or_404(Community, slug=slug)
+    # get current user  
+    current_user = Rider.objects.get(id=request.user.id)
+    # check onOff
+    if current_user == community.owner or current_user in community.moderators.all():
+        if state == 'true':
+            community.privacy = True
+            message = "{} is now Private!".format(community)
+        else:
+            community.privacy = False
+            message = "{} is now Open!".format(community)
+
+        community.save()
+    else: 
+        message = "Unauthorized reqeust! Unable to make {} PRIVATE".format(community)
+
+    return render(request, 'blacklist.html', {'message': message})
+
+
+# promote member to moderator 
+def PromoteMember(request, slug, pk):
+    message = ''
+    # get community
+    community = get_object_or_404(Community, slug=slug)
+    # get current user  
+    current_user = Rider.objects.get(id=request.user.id)
+    # get member of community
+    member = Rider.objects.get(id=pk)
+    # check if current user is an owner
+    if current_user == community.owner:
+        # check if member exist in community members
+        if member in community.members.all():
+            community.moderators.add(member)
+            community.save()
+            message = "{} is now a moderator of {} community".format(member, community)  
+        # member is not a member of this community
+        else:
+            message = "{} needs to be member of {} community to become moderator".format(member, community)    
+    # current user is not an owner
+    else:
+        message = "{} cannot be moderator because you are not an owner of {} community".format(member, community)
+    
     return render(request, 'blacklist.html', {'message': message})

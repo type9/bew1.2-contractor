@@ -36,7 +36,6 @@ class Review(models.Model):
         blank=True,
     )
 
-
 class RideShare(models.Model):
     start_location = LocationField()
     end_location = LocationField()
@@ -113,8 +112,6 @@ class RideShare(models.Model):
         # r = requests.get(geocode_url)
         # return r.json()['results'][0]['formatted_address']
         return f'LONG:{long}, LAT:{lat}'
-
-
 
 class Community(models.Model):
     title = models.CharField(max_length=settings.COMMUNITY_NAME_MAX_LEN, unique=True, help_text='Unique name for you rideshare community')

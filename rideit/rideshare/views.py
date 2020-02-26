@@ -364,9 +364,12 @@ def PromoteMember(request, slug, pk):
     if current_user == community.owner:
         # check if member exist in community members
         if member in community.members.all():
-            community.moderators.add(member)
-            community.save()
-            message = "{} is now a moderator of {} community".format(member, community)  
+            if member in community.moderators.all():
+                message = "{} is a moderator of this {} community already".format(member, community)
+            else:
+                community.moderators.add(member)
+                community.save()
+                message = "{} is now a moderator of {} community".format(member, community)  
         # member is not a member of this community
         else:
             message = "{} needs to be member of {} community to become moderator".format(member, community)    

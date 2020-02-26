@@ -2,13 +2,20 @@ from django.db import models
 
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.gis.geos import Point, MultiPoint
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
-from mapbox_location_field.models import LocationField
+from location_field.forms.plain import PlainLocationField
 
-class Location(models.Model):
-    location = LocationField()
+class CommunityArea(models.Model):
+    # TODO: Create a field that defines the geometric shape that a community operates in
+    pass
+
+class RideTrip(models.Model):
+    start = Point()
+    # TODO: make a "stops" feature which allow for on the way stops
+    end = Point()
 
 class Rider(User):
     class Meta:
@@ -29,8 +36,7 @@ class Rider(User):
 
 
 class RideShare(models.Model):
-    start_location = LocationField()
-    end_location = LocationField()
+    trip = RideTrip()
 
     return_trip = models.BooleanField(
         blank=True,
@@ -75,21 +81,23 @@ class RideShare(models.Model):
         '''reverse geocodes start location. returns address'''
         long = float(self.start_location[0])
         lat = float(self.start_location[1])
-        # geocode_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={settings.GOOGLE_API_KEY}'
-        # r = requests.get(geocode_url)
-        # print(f'REPSONSE: {r}')
+
+        geocode_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={settings.GOOGLE_MAPS_API_KEY}'
+        r = requests.get(geocode_url)
+        print(f'REPSONSE: {r}')
         # return r.json()['results'][0]['formatted_address']
         return f'LONG:{long}, LAT:{lat}'
+
 
     @property
     def get_end(self):
         '''reverse geocodes start location. returns address'''
         long = float(self.end_location[0])
         lat = float(self.end_location[1])
-        # geocode_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={settings.GOOGLE_API_KEY}'
-        # r = requests.get(geocode_url)
-        # return r.json()['results'][0]['formatted_address']
-        return f'LONG:{long}, LAT:{lat}'
+        geocode_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={settings.GOOGLE_MAPS_API_KEY}'
+        r = requests.get(geocode_url)
+        return r.json()['results'][0]['formatted_address']
+        # return f'LONG:{long}, LAT:{lat}'
 
 class Community(models.Model):
     title = models.CharField(max_length=settings.COMMUNITY_NAME_MAX_LEN, unique=True, help_text='Unique name for you rideshare community')
@@ -122,11 +130,12 @@ class Community(models.Model):
         help_text='The Riders that are allowed to create and participate in ridesharing in this community',
     )
 
-    areas = models.ManyToManyField(
-        Location,
-        blank=True,
-        help_text='The areas in which this community will offer rideshares in (this is used for Riders to find the right communities)'
-    )
+    # areas = models.ForeignKey(
+    #     CommunityArea,
+    #     on_delete = models.CASCADE,
+    #     blank=True,
+    #     help_text='The areas in which this community will offer rideshares in (this is used for Riders to find the right communities)'
+    # )
 
     rideshares = models.ManyToManyField(
         RideShare,

@@ -4,6 +4,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
+from django.http import HttpResponseRedirect
+
+from .models import UserProfile
 from .forms import UserProfileForm
 # Create your views here.
 

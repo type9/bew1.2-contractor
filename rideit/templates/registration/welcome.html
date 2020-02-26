@@ -29,18 +29,24 @@
                     {% for error in field.errors %}
                         <p class="text-danger">{{ error }}</p>
                     {% endfor %}
-                    <div class="form-group row d-flex justify-content-center">
-                        {% if 'password' in field.name %}
-                            <input class="form-control" type="password" name="{{ field.name }}" placeholder="{{ field.label|title }}" style="background-color: transparent; color: #272727" required>
+
+                    <div class="form-group row d-flex justify-content-center align-items-center">
+                        {% if 'profile_pic' in field.name %}
+                            <label class="btn btn-dark" for="my-file-selector">
+                                <input id="my-file-selector" type="file" name="{{ field.name }}" style="display:none"
+                                onchange="$('#upload-file-info').html(this.files[0].name)">
+                                Upload Profile Picture
+                            </label>
+                            <span class='label label-info' id="upload-file-info"></span>
+                        {% elif "email" in field.name %}
+                            <input class="form-control" type="email" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{{ field.label|title }}">
                         {% else %}
-                            <input class="form-control" type="text" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{{ field.label|title }}" style="background-color: transparent; color: #272727" required>
+                            <input class="form-control" type="text" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{{ field.label|title }}">
                         {% endif %}
                     </div>
                 {% endfor %}
 
-                <div class="form-group" style="padding-top: 10px">
-                    <button type="submit" class="btn btn-dark mb-2 green-button">Sign up</button>
-                </div>
+                <button type="submit" class="btn btn-dark mb-2" style="background-color: transparent; border-color: #EEEEEE; margin-top: 10px"">Sign up</button>
             </form>
         </div>
         <div class="col-md-5"></div>

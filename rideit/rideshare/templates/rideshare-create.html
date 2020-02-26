@@ -1,15 +1,134 @@
 {% extends 'base.html' %}
-{% load mapbox_location_field_tags %}
 {% block header %}
-    {% location_field_includes %}
-    {% include_jquery %}
 {% endblock %}
 {% block content %}
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.as_p}}
+        <div style="display: none">
+          <input id="start-location-field"class="controls" type="text" name="start_location" placeholder="Enter deperature address">
+          <input id="end-location-field" class="controls" type="text" name="end_location" placeholder="Enter arrival address">
+        </div>
+        <div id="map"></div>
         <input type="hidden" name="slug" value="{{slug}}">
         <input type="submit" value="Submit Rideshare">
     </form>
-    {{ form.media }}
+
+    <style>
+      #map {
+          height: 400px;
+      }
+            /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .controls {
+        background-color: #fff;
+        border-radius: 2px;
+        border: 1px solid transparent;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        box-sizing: border-box;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        height: 29px;
+        margin-left: 17px;
+        margin-top: 10px;
+        outline: none;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      .controls:focus {
+        border-color: #4d90fe;
+      }
+      .title {
+        font-weight: bold;
+      }
+      #infowindow-content {
+        display: none;
+      }
+      #map #infowindow-content {
+        display: inline;
+      }
+    </style>
+    <script>
+      let startField = document.getElementById("start-location-field");
+      let endField = document.getElementById("end-location-field");
+      let map, startAutocomplete, endAutocomplete;
+      let defaultLatLng = {'lat': {{default_lat}}, 'lng': {{default_lng}}} //declares default marker from form creation
+
+      function placeChange(autocomplete, marker){
+        console.log("Place change detected" + autocomplete + marker);
+        let place = autocomplete.getPlace();
+
+        if (!place.place_id) {
+          return;
+        }
+        geocoder.geocode({'placeId': place.place_id}, function(results, stats){
+          if (status !== 'OK'){
+            console.log('Geocoder failed due to: ' + status);
+            return;
+          }
+          map.setZoom(11);
+          map.setCenter(results[0].geometry.location);
+
+          marker.setPlace({placeId: place.place_id, location: results[0].geometry.location});
+          marker.setVisible(true);
+        });
+      }
+
+      function initAutcomplete(){
+        startAutocomplete = new google.maps.places.Autocomplete(
+          startField, {types: ['geocode']}
+        )
+        endAutocomplete = new google.maps.places.Autocomplete(
+          endField, {types: ['geocode']}
+        )
+
+        startAutocomplete.setFields(['address_component']);
+        endAutocomplete.setFields(['address_component']);
+
+        startAutocomplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
+        endAutocomplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
+      }
+
+      function fillInAddress(autocomplete) {
+        // Get the place details from the autocomplete object.
+        var place = autocomplete.getPlace();
+      }
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: defaultLatLng,
+          zoom: 10
+        });
+
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(startField);
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(endField);
+
+        var geocoder = new google.maps.Geocoder;
+
+        var start_marker = new google.maps.Marker({
+          position: defaultLatLng,
+          label: 'Depart',
+          map: map
+        });
+        var end_marker = new google.maps.Marker({
+          position: null,
+          label: 'Arrive',
+          map: map
+        });
+
+        initAutcomplete();
+        console.log()
+        startAutocomplete.addListener('place_changed', placeChange(startAutocomplete, start_marker));
+        endAutocomplete.addListener('place_changed', placeChange(endAutocomplete, end_marker));
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{key}}&libraries=places&callback=initMap";
+    async defer></script>
 {% endblock %}

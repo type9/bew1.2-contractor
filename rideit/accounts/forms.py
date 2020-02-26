@@ -11,4 +11,4 @@ class UserProfileForm(forms.ModelForm):
         """Metadata about this form."""
 
         model = UserProfile
-        fields = ('first_name', 'last_name', 'email', 'profile_pic', 'number')
+        fields = ('first_name', 'last_name', 'email', 'number', 'profile_pic')

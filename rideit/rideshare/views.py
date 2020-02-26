@@ -309,7 +309,7 @@ def RateAndReviewRide(request, slug, rideshare_id, rating):
     # check if user is a member
     if ((community.private != True) or (current_user in community.members.all())):
             review = Review()
-            
+
             # TODO: update values to get from form
             review.reviewer = current_user
             review.rating = rating
@@ -333,7 +333,7 @@ def SetCommunityPrivacy(request, slug, state):
     message = ''
     # get community
     community = get_object_or_404(Community, slug=slug)
-    # get current user  
+    # get current user
     current_user = Rider.objects.get(id=request.user.id)
     # check onOff
     if current_user == community.owner or current_user in community.moderators.all():
@@ -345,18 +345,18 @@ def SetCommunityPrivacy(request, slug, state):
             message = "{} is now Open!".format(community)
 
         community.save()
-    else: 
+    else:
         message = "Unauthorized reqeust! Unable to make {} PRIVATE".format(community)
 
     return render(request, 'blacklist.html', {'message': message})
 
 
-# promote member to moderator 
+# promote member to moderator
 def PromoteMember(request, slug, pk):
     message = ''
     # get community
     community = get_object_or_404(Community, slug=slug)
-    # get current user  
+    # get current user
     current_user = Rider.objects.get(id=request.user.id)
     # get member of community
     member = Rider.objects.get(id=pk)
@@ -369,12 +369,38 @@ def PromoteMember(request, slug, pk):
             else:
                 community.moderators.add(member)
                 community.save()
-                message = "{} is now a moderator of {} community".format(member, community)  
+                message = "{} is now a moderator of {} community".format(member, community)
         # member is not a member of this community
         else:
-            message = "{} needs to be member of {} community to become moderator".format(member, community)    
+            message = "{} needs to be member of {} community to become moderator".format(member, community)
     # current user is not an owner
     else:
         message = "{} cannot be moderator because you are not an owner of {} community".format(member, community)
-    
+
+    return render(request, 'blacklist.html', {'message': message})
+
+
+def DemoteMember(request, slug, pk):
+    '''Removes a site member from moderator role'''
+    message = 'User removed from moderator role'
+    # get community
+    community = get_object_or_404(Community, slug=slug)
+    # get current user
+    current_user = Rider.objects.get(id=request.user.id)
+    # get member of community
+    member = Rider.objects.get(id=pk)
+
+    if current_user == community.owner:
+        # check if member exist in community members
+        if member in community.members.all():
+
+            if member in community.moderators.all():
+                community.moderators.remove(member)
+                community.save()
+                message = "{} has now been removed as a moderator of {} community".format(member, community)
+            else:
+                message = "{} is not a moderator of this {} community".format(member, community)
+    else:
+        message = "You're not an Owner. Only Owners can remove users from Moderator Role"
+
     return render(request, 'blacklist.html', {'message': message})

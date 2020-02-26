@@ -2,7 +2,7 @@ from django.urls import path
 from rideshare.views import CommunityListView, CommunityDetailView, CommunityCreateView
 from rideshare.views import RideShareDetailView, RideShareCreateView, BlacklistView
 from rideshare.views import BlockUser, JoinCommunity, AcceptMemberRequest, RemoveRideShare
-from rideshare.views import RateAndReviewRide, SetCommunityPrivacy, PromoteMember
+from rideshare.views import RateAndReviewRide, SetCommunityPrivacy, PromoteMember, DemoteMember
 
 '''
 Abbreviation Key:
@@ -37,7 +37,8 @@ urlpatterns = [
     path('cm/<str:slug>/rs/<int:rideshare_id>/review/<int:rating>', RateAndReviewRide, name='add-review-route'),
     # request to make a community private slug=community_slug, state=true/false
     path('cm/<str:slug>/private/<str:state>', SetCommunityPrivacy, name='set-community-private-route'),
-    # request to make a member into a moderator 
-    path('cm/<str:slug>/member/<int:pk>', PromoteMember, name='promote-member-route'),
+    # request to make a member into a moderator
+    path('cm/<str:slug>/promote/<int:pk>', PromoteMember, name='promote-member-route'),
+    path('cm/<str:slug>/demote/<int:pk>', DemoteMember, name='demote-member-route'),
 
 ]

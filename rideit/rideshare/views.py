@@ -171,14 +171,12 @@ class RideShareCreateView(CreateView):
         if form.is_valid() and community is not None:
             data = form.cleaned_data
             new_rs = RideShare()
-            
-            print(form)
+
             new_trip = RideTrip()
             print(data['start_lat'], data['start_long'])
             new_trip.start = Point((data['start_lat'], data['start_long']))
             new_trip.end = Point((data['end_lat'], data['end_long']))
             new_trip.save()
-            print(new_trip)
 
             new_rs.trip = new_trip
 
@@ -187,7 +185,7 @@ class RideShareCreateView(CreateView):
             new_rs.cost_per_passenger = data['cost_per_passenger']
 
             new_rs.save()
-
+            print(f'TRIP STARTSTOP: {new_rs.trip.start.x, new_rs.trip.end.x}')
             community.rideshares.add(new_rs)
             return HttpResponseRedirect(reverse('rideshare-details-page',
                                                 args=[new_rs.id]))

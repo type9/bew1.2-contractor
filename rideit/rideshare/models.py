@@ -1,4 +1,4 @@
-from django.db import models
+from django.contrib.gis.db import models
 import requests
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -17,9 +17,9 @@ class Location(models.Model):
     pass
 
 class RideTrip(models.Model):
-    start = Point()
+    start = models.PointField(blank = True, null=True, srid=4326)
     # TODO: make a "stops" feature which allow for on the way stops
-    end = Point()
+    end = models.PointField(blank = True, null=True, srid=4326)
 
 class Rider(User):
     class Meta:
@@ -119,8 +119,8 @@ class RideShare(models.Model):
     @property
     def get_start(self):
         '''reverse geocodes start location. returns address'''
-        long = float(self.trip.start.x)
-        lat = float(self.trip.end.y)
+        long = self.trip.start.y
+        lat = self.trip.start.x
 
         geocode_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={settings.GOOGLE_MAPS_API_KEY}'
         print(geocode_url)
@@ -132,8 +132,8 @@ class RideShare(models.Model):
     @property
     def get_end(self):
         '''reverse geocodes start location. returns address'''
-        long = float(self.trip.start.x)
-        lat = float(self.trip.end.y)
+        long = self.trip.end.y
+        lat = self.trip.end.x
 
         geocode_url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={settings.GOOGLE_MAPS_API_KEY}'
         r = requests.get(geocode_url)

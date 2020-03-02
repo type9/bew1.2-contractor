@@ -1,7 +1,7 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView
 
-from rideshare.models import Rider, RideShare, Community
-from api.serializers import RiderSerializer, RideShareSerializer, CommunitySerializer
+from rideshare.models import Rider, RideShare, Community, RideTrip
+from api.serializers import RiderSerializer, RideShareSerializer, CommunitySerializer, RideTripSerializer
 
 # For Riders
 class RiderList(ListCreateAPIView):
@@ -10,6 +10,15 @@ class RiderList(ListCreateAPIView):
 
 class RiderDetail(RetrieveDestroyAPIView):
     queryset = Rider.objects.all()
+    serializer_class = RiderSerializer
+
+# For Riders
+class RideList(ListCreateAPIView):
+    queryset = RideTrip.objects.all()
+    serializer_class = RiderSerializer
+
+class RideDetail(RetrieveDestroyAPIView):
+    queryset = RideTrip.objects.all()
     serializer_class = RiderSerializer
 
 # For RiderShares

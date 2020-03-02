@@ -1,0 +1,296 @@
+/* general things */
+.typical-field{
+    background-color: transparent;
+    color: #272727
+}
+
+
+/* buttons */
+
+.green-button{
+    background-color: #1B8366;
+    color: #EEEEEE;
+    border-color: #1B8366
+}
+
+/* navbar */
+.rideshare-navbar{
+    background-color: #EEEEEE;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.rideshare-brand{
+    color: #272B2B;
+}
+
+.rideshare-navbar-options{
+    padding-left: 20px;
+}
+
+.rideshare-navbar-options .rideshare-nav-item{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 6px
+}
+
+.rideshare-navbar-options .rideshare-nav-search-wrapper{
+    padding-left: 62px;
+    padding-top: 5px
+}
+
+.rideshare-nav-search-wrapper .rideshare-nav-search-input{
+    background-color: transparent;
+}
+
+.rideshare-nav-search-wrapper .rideshare-nav-search-btn{
+    background-color: transparent;
+    border-color: #BBBBBB;
+    border-left: None;
+}
+
+.signup-navbar{
+    background-color: #EEEEEE;
+}
+
+.signup-arrow-wrapper{
+    padding-left: 20px;
+    padding-top: 20px;
+    color: #272727;
+}
+
+/* home pages */
+
+.rideshare-home{
+    background-color: #EEEEEE;
+    padding-bottom: 200px;
+}
+
+.create-community-home{
+    padding-top: 80px;
+    height: 100vh;
+    background-color: #EEEEEE;
+}
+
+.ur-communities-wrapper{
+    padding-top: 70px;
+}
+
+.ur-profile-wrapper{
+    padding-top: 40px;
+}
+
+.community-detail-user-info-wrapper{
+    position: relative;
+    top: 0;
+}
+
+.community-detail-profile-wrapper{
+    padding-top: 40px;
+}
+
+.community-details-home{
+    background-color: #EEEEEE;
+    padding-bottom: 50px;
+}
+
+.community-rides-wrapper{
+    padding-top: 80px;
+}
+
+.tab {
+    overflow: hidden;
+}
+
+.tabcontent {
+    display: none;
+    padding-top: 15px;
+    -webkit-animation: fadeEffect .5s;
+    animation: fadeEffect .5s;
+}
+
+/* Fade in tabs */
+@-webkit-keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.community-tab{
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.community-tab:focus{
+    outline: none;
+}
+
+.tab button.active {
+    text-decoration: underline;
+    text-underline-position: under;
+}
+
+/* community detail page */
+
+.community-description{
+    padding-top: 10px;
+}
+
+/* buttons */
+.logout-button{
+    background-color: transparent;
+    color: #272727;
+    border-radius: 10px;
+}
+
+.login-button{
+    background-color: #47785D;
+    color: #EEEEEE;
+    border-radius: 10px;
+}
+
+.sign-up-button{
+    background-color: #8899A6;
+    color: #EEEEEE;
+    border-radius: 10px;
+}
+
+/* community card */
+
+.community-card{
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    border-color: #f4f4f4;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.community-card .community-card-subtitle{
+    padding-top: 3px;
+}
+
+.community-card .community-card-text{
+    padding-top: 5px;
+}
+
+.community-card .community-card-seemore-button{
+    margin-top: 15px;
+    border-radius: 20px;
+    height: 40px;
+    background-color: #E9AE0B;
+    color: #EEEEEE;
+}
+
+.community-card-title{
+    padding-left: 10px;
+}
+
+.community-card-subtitle{
+    margin-top: 10px;
+}
+
+/* my ride card */
+
+.my-ride-card{
+    margin-top: 20px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    border-color: #f4f4f4;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.my-rides-wrapper{
+    overflow: scroll;
+    height: 34vh;
+    padding: 10px;
+}
+
+.my-rides-title-wrapper{
+    padding-top: 20px;
+}
+
+/* profile card */
+
+.profile-card{
+    margin-top: 60px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    border-color: #f4f4f4;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.profile-card-pic{
+    height: 40px;
+    width: auto;
+    border-radius: 50%;
+}
+
+.profile-card .profile-card-name{
+    padding-left: 10px;
+}
+
+.profile-card .profile-card-subtitle{
+    padding-top: 10px;
+}
+
+.profile-card .profile-card-add-comm-btn{
+    background-color: transparent;
+    border-radius: 40px;
+}
+
+.profile-card .profile-card-add-comm-btn:hover{
+    background-color: #DDDDDD;
+    border-radius: 40px;
+}
+
+/* community detail card */
+
+.community-detail-title-wrapper{
+    padding-top: 50px;
+}
+
+.community-rides-wrapper{
+    padding-top:
+}
+
+
+/* create community card */
+
+.create-community-card{
+    background-color: #f4f4f4;
+    border-color: #f4f4f4;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.create-community-title {
+    padding-bottom: 10px;
+}
+
+
+/* user owned communities */
+.user-owned-community-card{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: #f1f1f1;
+    border-color: #f4f4f4;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.user-owned-communities-title{
+    padding-top: 20px;
+}
+
+.user-owned-community-card .see-more-button{
+    margin-top: 15px;
+    border-radius: 20px;
+    height: 40px;
+    background-color: #E9AE0B;
+    color: #FFFFFF;
+}

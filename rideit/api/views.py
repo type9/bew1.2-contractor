@@ -29,3 +29,7 @@ class CommunityList(ListCreateAPIView):
 class CommunityDetail(RetrieveDestroyAPIView):
     queryset = Community.objects.all()
     serializer_class = CommunitySerializer
+
+class CommunityBlacklist(RetrieveDestroyAPIView):
+    queryset = Community.objects.all()
+    serializer_class = CommunitySerializer

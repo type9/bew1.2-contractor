@@ -1,0 +1,13 @@
+<div class="card community-card">
+    <div class="card-body">
+        <h4 class="card-title">{{community.title}}</h4>
+        <h6 class="card-subtitle mb-2 text-muted community-card-subtitle"><span class="fas fa-map-pin"></span> Sunset District, San Francisco&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fas fa-users"></span> 58 Members </h6>
+        <p class="card-text community-card-text">{{ community.description }}</p>
+
+
+        <a href="{% url 'rideshare:community-details-page' community.slug%}" class="btn community-card-seemore-button" style="">See More</a>
+        <!-- <button href="#" class="btn" style="margin-top: 15px; border-radius: 20px; height: 40px; background-color: #E9AE0B; color: #EEEEEE">Learn More</button>
+        <button href="#" class="btn" style="margin-top: 15px; border-radius: 20px; height: 40px; background-color: #1B8366; color: #EEEEEE; margin-left: 6px">Join Community</button> -->
+
+    </div>
+</div>

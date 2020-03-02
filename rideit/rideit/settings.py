@@ -20,6 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = "REPLACEME"
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -66,11 +67,12 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates').replace('\\', '/'),
+            os.path.join(BASE_DIR, 'templates').replace('\\', '/')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.media',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -131,6 +133,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+# MapBox Config
+
+MAPBOX_KEY = "REPLACEME"
+
 # Google Config
 GOOGLE_MAPS_API_KEY = "AIzaSyDC1iFtKOikdXvnlMJdJJUodP4HBhJn6cc"
 # Location config
@@ -138,9 +144,12 @@ LOCATION_FIELD = {
     "provider.google.api_key": GOOGLE_MAPS_API_KEY,
 }
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+# The below one is for heroku
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
@@ -148,7 +157,7 @@ STATICFILES_DIRS = [
 ]
 
 # Where to redirect during authentication
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/welcome"
 LOGOUT_REDIRECT_URL = "/"
 
 # Required for Heroku

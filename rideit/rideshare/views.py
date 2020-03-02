@@ -5,6 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.urls import reverse, reverse_lazy
 
+from django.contrib.gis.geos import Point, MultiPoint
 from rideshare.models import Rider, RideShare, Community, RideTrip
 from rideshare.forms import CommunityCreateForm, RideShareCreateForm
 
@@ -82,15 +83,22 @@ class RideShareCreateView(CreateView):
         community = Community.objects.get(slug=community_slug)
 
         if form.is_valid() and community is not None:
+            data = form.cleaned_data
             new_rs = RideShare()
+            
+            print(form)
             new_trip = RideTrip()
-            new_trip.start = form.cleaned_data['start_location']
-            new_trip.end = form.cleaned_data['end_location']
+            print(data['start_lat'], data['start_long'])
+            new_trip.start = Point((data['start_lat'], data['start_long']))
+            new_trip.end = Point((data['end_lat'], data['end_long']))
+            new_trip.save()
+            print(new_trip)
 
             new_rs.trip = new_trip
+
             new_rs.driver = Rider.objects.get(id=request.user.id)
-            new_rs.departure_date = form.cleaned_data['departure_date']
-            new_rs.cost_per_passenger = form.cleaned_data['cost_per_passenger']
+            new_rs.departure_date = data['departure_date']
+            new_rs.cost_per_passenger = data['cost_per_passenger']
 
             new_rs.save()
 

@@ -5,14 +5,14 @@
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p}}
-        <div style="display: none">
-          <input id="start-location-field"class="controls" type="text" name="start_location" placeholder="Enter deperature address">
-          <input id="end-location-field" class="controls" type="text" name="end_location" placeholder="Enter arrival address">
-        </div>
         <div id="map"></div>
         <input type="hidden" name="slug" value="{{slug}}">
         <input type="submit" value="Submit Rideshare">
     </form>
+        <div style="display: none">
+          <input id="start-location-field"class="controls" type="text" name="start_location" placeholder="Enter departing address">
+          <input id="end-location-field" class="controls" type="text" name="end_location" placeholder="Enter arriving address">
+        </div>
     <style>
       #map {
           height: 400px;
@@ -38,9 +38,9 @@
         outline: none;
         padding: 0 11px 0 13px;
         text-overflow: ellipsis;
-        width: 400px;
+        width: 300px;
       }
-
+      #end-location-field
       .controls:focus {
         border-color: #4d90fe;
       }
@@ -57,11 +57,16 @@
     <script>
       let startField = document.getElementById("start-location-field");
       let endField = document.getElementById("end-location-field");
+      let start_lat = document.getElementById("id_start_lat");
+      let start_long = document.getElementById("id_start_long");
+      let end_lat = document.getElementById("id_end_lat");
+      let end_long = document.getElementById("id_end_long");
       let map, startAutocomplete, endAutocomplete;
-      let defaultLatLng = {'lat': {{default_lat}}, 'lng': {{default_lng}}} //declares default marker from form creation
+      let defaultLatLng = {'lat': 100, 'lng': 100} //declares default marker from form creation
 
       function placeChange(autocomplete, marker){
         console.log("Place change detected" + autocomplete + marker);
+        console.log(autocomplete.getPlace());
         let place = autocomplete.getPlace();
 
         if (!place.place_id) {
@@ -88,9 +93,6 @@
           endField, {types: ['geocode']}
         )
 
-        startAutocomplete.setFields(['address_component']);
-        endAutocomplete.setFields(['address_component']);
-
         startAutocomplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
         endAutocomplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
       }
@@ -103,16 +105,17 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: defaultLatLng,
+          disableDefaultUI: true,
           zoom: 10
         });
 
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(startField);
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(endField);
+        map.controls[google.maps.ControlPosition.LEFT_TOP].push(endField);
 
         var geocoder = new google.maps.Geocoder;
 
         var start_marker = new google.maps.Marker({
-          position: defaultLatLng,
+          position: null,
           label: 'Depart',
           map: map
         });
@@ -122,11 +125,61 @@
           map: map
         });
 
+        function setBounds(){
+          var bounds = new google.maps.LatLngBounds();
+          console.log("bounds" + start_marker.position + end_marker.position);
+          if (start_marker.position !== null){
+            bounds.extend(start_marker.position);
+          }
+          if (end_marker.position !== null){
+            bounds.extend(end_marker.position);
+          }
+          map.fitBounds(bounds);
+        }
+
         initAutcomplete();
-        console.log()
-        startAutocomplete.addListener('place_changed', placeChange(startAutocomplete, start_marker));
-        endAutocomplete.addListener('place_changed', placeChange(endAutocomplete, end_marker));
-      }
+
+        startAutocomplete.addListener('place_changed',  function (){
+          console.log("Place change default" + startAutocomplete + start_marker.position);
+          console.log(startAutocomplete.getPlace());
+          let place = startAutocomplete.getPlace();
+
+          if (!place.place_id) {
+            return;
+          }
+          geocoder.geocode({'placeId': place.place_id}, function(results, stats){
+            console.log("LAT:" + results[0].geometry.location.lat() + "LNG:" + results[0].geometry.location.lng());
+            start_marker.setPlace({placeId: place.place_id, location: {'lat': results[0].geometry.location.lat(), 'lng': results[0].geometry.location.lng()}});
+            start_marker.setVisible(true);
+            
+            console.log("Place change default" + startAutocomplete + start_marker.position);
+
+            start_marker.setPosition(results[0].geometry.location);
+            start_lat.value = results[0].geometry.location.lat()
+            start_long.value = results[0].geometry.location.lng()
+            setBounds();
+          });
+        });
+        endAutocomplete.addListener('place_changed', function (){
+          console.log("Place change default" + endAutocomplete + end_marker.position);
+          console.log(endAutocomplete.getPlace());
+          let place = endAutocomplete.getPlace();
+
+          if (!place.place_id) {
+            return;
+          }
+          geocoder.geocode({'placeId': place.place_id}, function(results, stats){
+            console.log("LAT:" + results[0].geometry.location.lat() + "LNG:" + results[0].geometry.location.lng())
+            end_marker.setPlace({placeId: place.place_id, location: {'lat': results[0].geometry.location.lat(), 'lng': results[0].geometry.location.lng()}});
+            end_marker.setVisible(true);
+
+            end_marker.setPosition(results[0].geometry.location);
+            end_lat.value = results[0].geometry.location.lat()
+            end_long.value = results[0].geometry.location.lng()
+            setBounds();
+          });
+        });
+        }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{key}}&libraries=places&callback=initMap";
     async defer></script>

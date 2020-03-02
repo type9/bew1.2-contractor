@@ -24,7 +24,11 @@ class Rider(User):
         proxy = True
 
 class RideShare(models.Model):
-    trip = RideTrip()
+    trip = models.OneToOneField(
+        RideTrip,
+        on_delete=models.CASCADE,
+        related_name='Ridetrip_of_%(app_label)s_%(class)s',
+    )
 
     return_trip = models.BooleanField(
         blank=True,

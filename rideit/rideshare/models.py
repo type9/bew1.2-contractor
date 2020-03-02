@@ -12,6 +12,10 @@ class CommunityArea(models.Model):
     # TODO: Create a field that defines the geometric shape that a community operates in
     pass
 
+class Location(models.Model):
+    # Temororary class for LOCATION_FIELD
+    pass
+
 class RideTrip(models.Model):
     start = Point()
     # TODO: make a "stops" feature which allow for on the way stops
@@ -220,6 +224,8 @@ class Community(models.Model):
     def get_members(self, input_community):
         members = RiderToCommunity.objects.filter(community=input_community)
         return members
+
+
 
 class UserToCommunity(models.Model):
     """Relationship between rider and community"""

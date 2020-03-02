@@ -109,7 +109,7 @@ class CommunityDetailView(DetailView):
             return render(request, 'blacklist.html', {'message': message})
         else:
             rideshares = community.get_rideshares().get_queryset()
-            return render(request, 'community-details.html', {
+            return render(request, 'community_details.html', {
                 'community': community,
                 'rideshares': rideshares
             })

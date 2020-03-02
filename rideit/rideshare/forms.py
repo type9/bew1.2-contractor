@@ -25,10 +25,6 @@ class RideShareCreateForm(forms.Form):
                   'cost_per_passenger')
         widgets = {'ref': forms.HiddenInput(), }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> location-ux
     departure_date = forms.DateField()
     cost_per_passenger = forms.DecimalField(decimal_places=2, max_digits=5, help_text='Cost per passenger')
 
@@ -36,12 +32,8 @@ class RideShareCreateForm(forms.Form):
     start_long = forms.DecimalField(required=False, widget=forms.HiddenInput())
     end_lat = forms.DecimalField(required=False, widget=forms.HiddenInput())
     end_long = forms.DecimalField(required=False, widget=forms.HiddenInput())
-<<<<<<< HEAD
-=======
+
 class RateAndReviewCreateForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ('review', 'reviewer','rating')
->>>>>>> 9268ca5c54cf31ea7b22f9e0d429f2dd85b35005
-=======
->>>>>>> location-ux

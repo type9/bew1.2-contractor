@@ -8,18 +8,9 @@ from django.urls import reverse, reverse_lazy
 from http.client import responses
 from django.http import HttpResponse
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-from django.contrib.gis.geos import Point, MultiPoint
-from rideshare.models import Rider, RideShare, Community, RideTrip
-=======
-from rideshare.models import Rider, RideShare, Community, Review, RideTrip
->>>>>>> 9268ca5c54cf31ea7b22f9e0d429f2dd85b35005
-=======
 
 from django.contrib.gis.geos import Point, MultiPoint
 from rideshare.models import Rider, RideShare, Community, Review, RideTrip
->>>>>>> location-ux
 from rideshare.forms import CommunityCreateForm, RideShareCreateForm
 
 

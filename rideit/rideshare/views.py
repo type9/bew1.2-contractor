@@ -1,5 +1,5 @@
 # from django.conf import settings
-
+from django.conf import settings
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -9,11 +9,17 @@ from http.client import responses
 from django.http import HttpResponse
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 from django.contrib.gis.geos import Point, MultiPoint
 from rideshare.models import Rider, RideShare, Community, RideTrip
 =======
 from rideshare.models import Rider, RideShare, Community, Review, RideTrip
 >>>>>>> 9268ca5c54cf31ea7b22f9e0d429f2dd85b35005
+=======
+
+from django.contrib.gis.geos import Point, MultiPoint
+from rideshare.models import Rider, RideShare, Community, Review, RideTrip
+>>>>>>> location-ux
 from rideshare.forms import CommunityCreateForm, RideShareCreateForm
 
 
@@ -164,7 +170,7 @@ class RideShareCreateView(CreateView):
             'default_lat': -25.344,
             'default_lng': 131.036,
         }
-        return render(request, 'create_rideshare.html', context)
+        return render(request, 'rideshare_create.html', context)
 
     def post(self, request, *args, **kwargs):
         form = RideShareCreateForm(request.POST)
@@ -191,9 +197,9 @@ class RideShareCreateView(CreateView):
 
             new_rs.save()
 
-            community.rideshares.add(rideshare)
+            community.rideshares.add(new_rs)
             return HttpResponseRedirect(reverse('rideshare-details-page',
-                                                args=[rideshare.id]))
+                                                args=[new_rs.id]))
         return render(request, 'rideshare-create.html', {'form': form})
 
 

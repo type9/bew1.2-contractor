@@ -2,6 +2,7 @@
 {% block header %}
 {% endblock %}
 {% block content %}
+    {% include 'partials/navbar.html' %}
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p}}

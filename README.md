@@ -3,7 +3,8 @@ Final project for BEW 1.2. See /proposal.md
 
 LIVE HERE: https://rideit.herokuapp.com/
 
-The concept of this project is to create a 'subredditable' ridesharing platform. To achieve that I have seperate the database in three main structures
+THIS IS THE DEVELOP BRANCH
+
 
 1) Rider (or user)
 2) Community (collection of users and rideshares)
@@ -16,7 +17,7 @@ Once inside a community they can create a rideshare for that community. This all
 
 Communities currently have no moderation rules yet but the models are in place to create the functionality.
 
-Rideshare are geocoded from their lat/long coordinates 
+Rideshare are geocoded from their lat/long coordinates
 
 This website is a proof of concept and is to be finished.
 

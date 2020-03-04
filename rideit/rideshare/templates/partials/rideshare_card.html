@@ -1,0 +1,18 @@
+{% load static %}
+
+<div class="card community-card">
+    <div class="card-body">
+        <img class="profile-card-pic" src="/media/{{ride.driver_user_profile.profile_pic}}"/>
+        <span class="card-title community-card-title h4">{{ride.driver_user_profile.first_name}} {{ride.driver_user_profile.last_name}}&nbsp;&nbsp;&nbsp;&nbsp;<span class="fas fa-calendar-week"></span> {{ride.departure_date|date:"SHORT_DATE_FORMAT"}}</span>
+        <hr>
+        <h6 class="card-subtitle text-muted community-card-subtitle"><span class="far fa-play-circle"></span> {{ride.get_start}}</h6>
+        <h6 class="card-subtitle text-muted community-card-subtitle"><span class="far fa-stop-circle"></span> {{ride.get_end}}</h6>
+        <!-- <p class="card-text community-card-text">This is a great ride!</p> -->
+
+
+        <a href="" class="btn community-card-seemore-button" style="">Join Ride</a>
+        <!-- <button href="#" class="btn" style="margin-top: 15px; border-radius: 20px; height: 40px; background-color: #E9AE0B; color: #EEEEEE">Learn More</button>
+        <button href="#" class="btn" style="margin-top: 15px; border-radius: 20px; height: 40px; background-color: #1B8366; color: #EEEEEE; margin-left: 6px">Join Community</button> -->
+
+    </div>
+</div>

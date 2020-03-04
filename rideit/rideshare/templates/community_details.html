@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+{% include 'partials/navbar.html' %}
+
+{% if user.is_authenticated %}
+
+    <div class="community-details-home">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <div class="community-detail-title-wrapper">
+                        <h2>{{ community.title }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h6 class="community-detail-subtitle mb-2 text-muted"><span class="fas fa-map-pin"></span> United States&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fas fa-users"></span> {{community.get_members|length}} Member{{community.get_members|length|pluralize:",s" }} </h6>
+                </div>
+            </div>
+            <div class="community-description" style="margin-bottom: -50px">
+                <div class="row text-center">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <h6 class="community-detail-subtitle mb-2 text-muted">{{ community.description }}</h6>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="community-rides-wrapper">
+                        {% for ride in rideshares %}
+                            <div class="row" style="padding-top: 20px">
+                                <div class="col-md-12">
+                                    {% include 'partials/rideshare_card.html' %}
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="empty-list text-center" style="padding-top: 30px;">
+                                <h6 style="color: #e32249">No Rides Yet! Go make some :)</h6>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="community-detail-user-info-wrapper sticky-top" style="height: 90vh; position: sticky;">
+                        <div class="community-detail-profile-wrapper">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% include 'partials/profile_card_community.html' %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="community-detail-my-rides-wrapper">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="my-rides-title-wrapper text-center">
+                                        <h3> Community Members </h3>
+                                    </div>
+                                    <hr>
+                                    <div class="my-rides-wrapper">
+                                        {% for member in members %}
+                                            {% include 'partials/member_card.html' %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        </div>
+    </div>
+
+{% else %}
+    {% include 'partials/community_search.html' %}
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- <nav class="navbar navbar-light signup-navbar">
+    <div class="signup-arrow-wrapper">
+        <a class="navbar-brand" href="/">
+            <span class="h1 fas fa-arrow-left"></span>
+        </a>
+    </div>
+</nav> -->
+
+<div class="login-page" style="height: 100vh; background-color: #EEEEEE">
+    <div class="row text-center" style="padding-top: 10%">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <h3>Almost There!</h3>
+            <h6>We just need a little bit more information</h6>
+            <hr>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row text-center" style="padding-top: 20px">
+        <div class="col-md-5"></div>
+        <div class="col-md-2">
+            <form action="{% url 'accounts:welcome-page' %}" method="post" enctype="multipart/form-data" class="mx-auto md-form">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
+
+                    <div class="form-group row d-flex justify-content-center align-items-center">
+                        {% if 'profile_pic' in field.name %}
+                            <label class="btn upload-pic-button" for="my-file-selector">
+                                <input id="my-file-selector" type="file" name="{{ field.name }}" style="display:none"
+                                onchange="$('#upload-file-info').html(this.files[0].name)">
+                                Upload Profile Picture
+                            </label>
+                            <span class='label label-info' id="upload-file-info"></span>
+                        {% elif "email" in field.name %}
+                            <input class="form-control" type="email" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{{ field.label|title }}">
+                        {% else %}
+                            <input class="form-control" type="text" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{{ field.label|title }}">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-dark mb-2 sign-up-button" style="margin-top: 20px;">Sign up</button>
+            </form>
+        </div>
+        <div class="col-md-5"></div>
+    </div>
+</div>
+
+
+{% endblock %}

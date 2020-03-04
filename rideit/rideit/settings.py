@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['DJANGO_KEY']
+
+SECRET_KEY = "REPLACEME"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,14 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    #GEO Django
+    'django.contrib.gis',
+    'world',
     # REST Framework
     'rest_framework',
     # Authentication
     'accounts',
     # Rideshare
     'rideshare',
-    # Third party
-    'mapbox_location_field',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'rideit.urls'
@@ -64,11 +68,12 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates').replace('\\', '/'),
+            os.path.join(BASE_DIR, 'templates').replace('\\', '/')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.media',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -85,12 +90,20 @@ WSGI_APPLICATION = 'rideit.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # },
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'geodjango',
+        'USER': 'rideit'
     }
+    # 'default': dj_database_url.config(conn_max_age=600),
 }
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
+# GDAL_LIBRARY_PATH = os.path.join(BASE_DIR, 'gdal')
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -125,23 +138,41 @@ USE_L10N = True
 USE_TZ = True
 
 # MapBox Config
-MAPBOX_KEY = os.environ['MAPBOX_API_KEY']
 
-# GoogleMaps Config
-GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
+MAPBOX_KEY = "REPLACEME"
+
+# Google Config
+GOOGLE_MAPS_API_KEY = "AIzaSyDC1iFtKOikdXvnlMJdJJUodP4HBhJn6cc"
+# Location config
+LOCATION_FIELD = {
+    "provider.google.api_key": GOOGLE_MAPS_API_KEY,
+}
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+# The below one is for heroku
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_URL = '/static/'
+#
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+# ]
+
+# This is for local
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
+
 # Where to redirect during authentication
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/welcome"
 LOGOUT_REDIRECT_URL = "/"
 
 # Required for Heroku

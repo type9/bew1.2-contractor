@@ -1,0 +1,456 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+
+{% include 'partials/navbar.html' %}
+
+<div class="create-community-home" style="padding-bottom: 800px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 text-center">
+
+                <h4 class="card-title create-community-title text-center">Create A Rideshare!</h4>
+                <div class="create-community-form-wrapper">
+                    <form method="post" class="mx-auto">
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <p class="text-danger">{{ error }}</p>
+                            {% endfor %}
+                            <div class="form-group row d-flex justify-content-center">
+                                {% if 'departure_date' in field.name %}
+                                    <input class="form-control typical-field" style="margin-left: 100px; margin-right: 100px" type="text" name="{{ field.name }}" placeholder="{{ field.label|title }}" required></input>
+                                {% elif 'cost_per_passenger' in field.name %}
+                                    <input class="form-control typical-field" style="margin-left: 100px; margin-right: 100px" type="text" name="{{ field.name }}" placeholder="{{ field.label|title }}" required></input>
+                                {% else %}
+                                    <input type="hidden" name="{{ field.name }}" id="id_{{ field.name }}">
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div id="map"></div>
+                        <div class="form-group" style="padding-top: 10px">
+                            <input type="hidden" name="slug" value="{{slug}}">
+                            <button type="submit" class="btn btn-dark mb-2 green-button">Create Rideshare</button>
+                        </div>
+                    </form>
+
+                    <div style="display: none">
+                        <input id="start-location-field"class="controls" type="text" name="start_location" placeholder="Enter departing address">
+                        <input id="end-location-field" class="controls" type="text" name="end_location" placeholder="Enter arriving address">
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p}}
+    <div id="map"></div>
+    <input type="hidden" name="slug" value="{{slug}}">
+    <input type="submit" value="Submit Rideshare">
+</form>
+    <div style="display: none">
+      <input id="start-location-field"class="controls" type="text" name="start_location" placeholder="Enter departing address">
+      <input id="end-location-field" class="controls" type="text" name="end_location" placeholder="Enter arriving address">
+    </div> -->
+
+
+<style>
+  #map {
+      height: 400px;
+      margin-top: -30px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+        /* Optional: Makes the sample page fill the window. */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .controls {
+    background-color: #fff;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    height: 29px;
+    margin-left: 17px;
+    margin-top: 10px;
+    outline: none;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 300px;
+  }
+  #end-location-field
+  .controls:focus {
+    border-color: #4d90fe;
+  }
+  .title {
+    font-weight: bold;
+  }
+  #infowindow-content {
+    display: none;
+  }
+  #map #infowindow-content {
+    display: inline;
+  }
+</style>
+<script>
+  let startField = document.getElementById("start-location-field");
+  let endField = document.getElementById("end-location-field");
+  let start_lat = document.getElementById("id_start_lat");
+  let start_long = document.getElementById("id_start_long");
+  let end_lat = document.getElementById("id_end_lat");
+  let end_long = document.getElementById("id_end_long");
+  let map, startAutocomplete, endAutocomplete;
+  let defaultLatLng = {'lat': 37.773972, 'lng': -122.431297}; //declares default marker from form creation
+
+  function placeChange(autocomplete, marker){
+    console.log("Place change detected" + autocomplete + marker);
+    console.log(autocomplete.getPlace());
+    let place = autocomplete.getPlace();
+
+    if (!place.place_id) {
+      return;
+    }
+    geocoder.geocode({'placeId': place.place_id}, function(results, stats){
+      if (status !== 'OK'){
+        console.log('Geocoder failed due to: ' + status);
+        return;
+      }
+      map.setZoom(11);
+      map.setCenter(results[0].geometry.location);
+      marker.setPlace({placeId: place.place_id, location: results[0].geometry.location});
+      marker.setVisible(true);
+    });
+  }
+
+  function initAutcomplete(){
+    startAutocomplete = new google.maps.places.Autocomplete(
+      startField, {types: ['geocode']}
+    )
+    endAutocomplete = new google.maps.places.Autocomplete(
+      endField, {types: ['geocode']}
+    )
+
+    startAutocomplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
+    endAutocomplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
+  }
+  function fillInAddress(autocomplete) {
+    // Get the place details from the autocomplete object.
+    var place = autocomplete.getPlace();
+  }
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: defaultLatLng,
+      disableDefaultUI: true,
+      zoom: 6
+    });
+
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(startField);
+    map.controls[google.maps.ControlPosition.LEFT_TOP].push(endField);
+
+    var geocoder = new google.maps.Geocoder;
+
+    var start_marker = new google.maps.Marker({
+      position: null,
+      label: 'Depart',
+      map: map
+    });
+    var end_marker = new google.maps.Marker({
+      position: null,
+      label: 'Arrive',
+      map: map
+    });
+
+    function setBounds(){
+      var bounds = new google.maps.LatLngBounds();
+      console.log("bounds" + start_marker.position + end_marker.position);
+      if (start_marker.position !== null){
+        bounds.extend(start_marker.position);
+      }
+      if (end_marker.position !== null){
+        bounds.extend(end_marker.position);
+      }
+      map.fitBounds(bounds);
+    }
+
+    initAutcomplete();
+
+    startAutocomplete.addListener('place_changed',  function (){
+      console.log("Place change default" + startAutocomplete + start_marker.position);
+      console.log(startAutocomplete.getPlace());
+      let place = startAutocomplete.getPlace();
+
+      if (!place.place_id) {
+        return;
+      }
+      geocoder.geocode({'placeId': place.place_id}, function(results, stats){
+        console.log("LAT:" + results[0].geometry.location.lat() + "LNG:" + results[0].geometry.location.lng());
+        start_marker.setPlace({placeId: place.place_id, location: {'lat': results[0].geometry.location.lat(), 'lng': results[0].geometry.location.lng()}});
+        start_marker.setVisible(true);
+
+        console.log("Place change default" + startAutocomplete + start_marker.position);
+
+        start_marker.setPosition(results[0].geometry.location);
+        start_lat.value = results[0].geometry.location.lat()
+        start_long.value = results[0].geometry.location.lng()
+        setBounds();
+      });
+    });
+    endAutocomplete.addListener('place_changed', function (){
+      console.log("Place change default" + endAutocomplete + end_marker.position);
+      console.log(endAutocomplete.getPlace());
+      let place = endAutocomplete.getPlace();
+
+      if (!place.place_id) {
+        return;
+      }
+      geocoder.geocode({'placeId': place.place_id}, function(results, stats){
+        console.log("LAT:" + results[0].geometry.location.lat() + "LNG:" + results[0].geometry.location.lng())
+        end_marker.setPlace({placeId: place.place_id, location: {'lat': results[0].geometry.location.lat(), 'lng': results[0].geometry.location.lng()}});
+        end_marker.setVisible(true);
+
+        end_marker.setPosition(results[0].geometry.location);
+        end_lat.value = results[0].geometry.location.lat()
+        end_long.value = results[0].geometry.location.lng()
+        setBounds();
+      });
+    });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{key}}&libraries=places&callback=initMap";
+async defer></script>
+
+
+
+<!-- <div class="create-community-home">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 text-center">
+
+                <h4 class="card-title create-community-title text-center">Create A Rideshare!</h4>
+                <div class="create-community-form-wrapper">
+                    <form method="post" class="mx-auto">
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <p class="text-danger">{{ error }}</p>
+                            {% endfor %}
+                            <div class="form-group row d-flex justify-content-center">
+                                {% if 'departure_date' in field.name %}
+                                    <input class="form-control typical-field" style="margin-left: 100px; margin-right: 100px" type="text" name="{{ field.name }}" placeholder="{{ field.label|title }}" required></input>
+                                {% elif 'cost_per_passenger' in field.name %}
+                                    <input class="form-control typical-field" style="margin-left: 100px; margin-right: 100px" type="text" name="{{ field.name }}" placeholder="{{ field.label|title }}" required></input>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div id="map"></div>
+                        <div class="form-group" style="padding-top: 10px">
+                            <button type="submit" class="btn btn-dark mb-2 green-button">Create Rideshare</button>
+                        </div>
+                    </form>
+
+                    <div style="display: none">
+                        <input id="start-location-field"class="controls" type="text" name="start_location" placeholder="Enter departing address">
+                        <input id="end-location-field" class="controls" type="text" name="end_location" placeholder="Enter arriving address">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+  #map {
+      height: 400px;
+      /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); */
+  }
+        /* Optional: Makes the sample page fill the window. */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .controls {
+    background-color: #fff;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    height: 29px;
+    margin-left: 17px;
+    margin-top: 10px;
+    outline: none;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 300px;
+  }
+  #end-location-field
+  .controls:focus {
+    border-color: #4d90fe;
+  }
+  .title {
+    font-weight: bold;
+  }
+  #infowindow-content {
+    display: none;
+  }
+  #map #infowindow-content {
+    display: inline;
+  }
+</style>
+<script>
+  let startField = document.getElementById("start-location-field");
+  let endField = document.getElementById("end-location-field");
+  let start_lat = document.getElementById("id_start_lat");
+  let start_long = document.getElementById("id_start_long");
+  let end_lat = document.getElementById("id_end_lat");
+  let end_long = document.getElementById("id_end_long");
+  let map, startAutocomplete, endAutocomplete;
+  let defaultLatLng = {'lat': 100, 'lng': 100} //declares default marker from form creation
+  function placeChange(autocomplete, marker){
+    console.log("Place change detected" + autocomplete + marker);
+    console.log(autocomplete.getPlace());
+    let place = autocomplete.getPlace();
+    if (!place.place_id) {
+      return;
+    }
+    geocoder.geocode({'placeId': place.place_id}, function(results, stats){
+      if (status !== 'OK'){
+        console.log('Geocoder failed due to: ' + status);
+        return;
+      }
+      map.setZoom(11);
+      map.setCenter(results[0].geometry.location);
+      marker.setPlace({placeId: place.place_id, location: results[0].geometry.location});
+      marker.setVisible(true);
+    });
+  }
+  function initAutcomplete(){
+    startAutocomplete = new google.maps.places.Autocomplete(
+      startField, {types: ['geocode']}
+    )
+    endAutocomplete = new google.maps.places.Autocomplete(
+      endField, {types: ['geocode']}
+    )
+    startAutocomplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
+    endAutocomplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
+  }
+  function fillInAddress(autocomplete) {
+    // Get the place details from the autocomplete object.
+    var place = autocomplete.getPlace();
+  }
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: defaultLatLng,
+      disableDefaultUI: true,
+      zoom: 10
+    });
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(startField);
+    map.controls[google.maps.ControlPosition.LEFT_TOP].push(endField);
+    var geocoder = new google.maps.Geocoder;
+    var start_marker = new google.maps.Marker({
+      position: null,
+      label: 'Depart',
+      map: map
+    });
+    var end_marker = new google.maps.Marker({
+      position: null,
+      label: 'Arrive',
+      map: map
+    });
+    function setBounds(){
+      var bounds = new google.maps.LatLngBounds();
+      console.log("bounds" + start_marker.position + end_marker.position);
+      if (start_marker.position !== null){
+        bounds.extend(start_marker.position);
+      }
+      if (end_marker.position !== null){
+        bounds.extend(end_marker.position);
+      }
+      map.fitBounds(bounds);
+    }
+    initAutcomplete();
+    startAutocomplete.addListener('place_changed',  function (){
+      console.log("Place change default" + startAutocomplete + start_marker.position);
+      console.log(startAutocomplete.getPlace());
+      let place = startAutocomplete.getPlace();
+      if (!place.place_id) {
+        return;
+      }
+      geocoder.geocode({'placeId': place.place_id}, function(results, stats){
+        console.log("LAT:" + results[0].geometry.location.lat() + "LNG:" + results[0].geometry.location.lng());
+        start_marker.setPlace({placeId: place.place_id, location: {'lat': results[0].geometry.location.lat(), 'lng': results[0].geometry.location.lng()}});
+        start_marker.setVisible(true);
+        console.log("Place change default" + startAutocomplete + start_marker.position);
+        start_marker.setPosition(results[0].geometry.location);
+        start_lat.value = results[0].geometry.location.lat()
+        start_long.value = results[0].geometry.location.lng()
+        setBounds();
+      });
+    });
+    endAutocomplete.addListener('place_changed', function (){
+      console.log("Place change default" + endAutocomplete + end_marker.position);
+      console.log(endAutocomplete.getPlace());
+      let place = endAutocomplete.getPlace();
+      if (!place.place_id) {
+        return;
+      }
+      geocoder.geocode({'placeId': place.place_id}, function(results, stats){
+        console.log("LAT:" + results[0].geometry.location.lat() + "LNG:" + results[0].geometry.location.lng())
+        end_marker.setPlace({placeId: place.place_id, location: {'lat': results[0].geometry.location.lat(), 'lng': results[0].geometry.location.lng()}});
+        end_marker.setVisible(true);
+        end_marker.setPosition(results[0].geometry.location);
+        end_lat.value = results[0].geometry.location.lat()
+        end_long.value = results[0].geometry.location.lng()
+        setBounds();
+      });
+    });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{key}}&libraries=places&callback=initMap";
+async defer></script> -->
+
+    <!-- <div class="container">
+        <div class="card community-card">
+            <div class="card-body">
+                <div class="row">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p}}
+                        <input type="hidden" name="slug" value="{{slug}}">
+                        <input type="submit" value="Submit Rideshare">
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+
+{% endblock %}

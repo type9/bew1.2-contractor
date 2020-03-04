@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from rideshare.models import Rider, RideShare, Community
+from rideshare.models import Rider, RideShare, Community, RideTrip
 
 class RiderSerializer(ModelSerializer):
     class Meta:
@@ -15,4 +15,9 @@ class RideShareSerializer(ModelSerializer):
 class CommunitySerializer(ModelSerializer):
     class Meta:
         model = Community
+        fields = '__all__'
+
+class RideTripSerializer(ModelSerializer):
+    class Meta:
+        model = RideTrip
         fields = '__all__'

@@ -1,6 +1,6 @@
 <div class='panel panel-default pt-3'>
     <div class='panel-heading'>
-        <a href='{% url "rideshare-details-page" rideshare.id %}' class='list-group-item-active'>
+        <a href='{% url "rideshare:rideshare-details-page" rideshare.id %}' class='list-group-item-active'>
             <h5 class='panel-title'>{{rideshare.departure_date|date:"SHORT_DATE_FORMAT"}} | {{rideshare.get_start}} -> {{rideshare.get_end}}</h4>
         </a>
     </div>

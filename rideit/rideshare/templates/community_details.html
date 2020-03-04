@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
 
 {% include 'partials/navbar.html' %}
@@ -39,12 +41,16 @@
                                     {% include 'partials/rideshare_card.html' %}
                                 </div>
                             </div>
+                        {% empty %}
+                            <div class="empty-list text-center" style="padding-top: 30px;">
+                                <h6 style="color: #e32249">No Rides Yet! Go make some :)</h6>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    <div class="community-detail-user-info-wrapper sticky-top" style="height: 80vh; position: sticky;">
+                    <div class="community-detail-user-info-wrapper sticky-top" style="height: 90vh; position: sticky;">
                         <div class="community-detail-profile-wrapper">
                             <div class="row">
                                 <div class="col-md-12">
@@ -56,16 +62,13 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="my-rides-title-wrapper text-center">
-                                        <h3> Recent Rides </h3>
+                                        <h3> Community Members </h3>
                                     </div>
                                     <hr>
                                     <div class="my-rides-wrapper">
-                                        {% include 'partials/my_ride_card.html' %}
-                                        {% include 'partials/my_ride_card.html' %}
-                                        {% include 'partials/my_ride_card.html' %}
-                                        {% include 'partials/my_ride_card.html' %}
-                                        {% include 'partials/my_ride_card.html' %}
-                                        {% include 'partials/my_ride_card.html' %}
+                                        {% for member in members %}
+                                            {% include 'partials/member_card.html' %}
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>

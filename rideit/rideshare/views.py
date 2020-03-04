@@ -124,8 +124,18 @@ class CommunityDetailView(DetailView):
             return render(request, 'blacklist.html', {'message': message})
         else:
             rideshares = community.get_rideshares().get_queryset()
+            members = community.members.get_queryset()
+
+            user_profile = UserProfile.objects.get(user=request.user)
+
+            members = UserProfile.objects.filter(user__in=members)
+
+            print("Members: {}".format(members))
+
             return render(request, 'community_details.html', {
+                'user_profile': user_profile,
                 'community': community,
+                'members': members,
                 'rideshares': rideshares
             })
 
@@ -144,6 +154,9 @@ class CommunityCreateView(CreateView):
             community = form.save(commit=False)
             community.owner = Rider.objects.get(id=request.user.id)
             community.save()
+
+            user = get_object_or_404(Rider, pk=request.user.id)
+            community.members.add(user)
 
             user2community = UserToCommunity(user=request.user, community=community)
             user2community.save()

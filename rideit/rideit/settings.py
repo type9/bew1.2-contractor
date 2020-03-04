@@ -99,7 +99,7 @@ DATABASES = {
     #     'NAME': 'geodjango',
     #     'USER': 'rideit'
     # }
-    # 'default': dj_database_url.config(conn_max_age=600),
+    'default': dj_database_url.config(conn_max_age=600),
 }
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 

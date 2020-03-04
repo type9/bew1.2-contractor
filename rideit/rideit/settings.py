@@ -47,8 +47,6 @@ INSTALLED_APPS = [
     'accounts',
     # Rideshare
     'rideshare',
-    # Third party
-    'location_field.apps.DefaultConfig',
 ]
 
 MIDDLEWARE = [

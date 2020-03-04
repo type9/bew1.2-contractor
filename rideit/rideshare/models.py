@@ -10,10 +10,6 @@ class CommunityArea(models.Model):
     # TODO: Create a field that defines the geometric shape that a community operates in
     pass
 
-class Location(models.Model):
-    # Temororary class for LOCATION_FIELD
-    pass
-
 class RideTrip(models.Model):
     start = models.PointField(blank = True, null=True, srid=4326)
     # TODO: make a "stops" feature which allow for on the way stops

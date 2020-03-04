@@ -94,11 +94,11 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # },
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'geodjango',
-        'USER': 'rideit'
-    }
+    # 'default': {
+    #     'ENGINE': 'django.contrib.gis.db.backends.postgis',
+    #     'NAME': 'geodjango',
+    #     'USER': 'rideit'
+    # }
     # 'default': dj_database_url.config(conn_max_age=600),
 }
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
@@ -153,10 +153,10 @@ LOCATION_FIELD = {
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 # The below one is for heroku
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATIC_URL = '/static/'
-#
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'static'),
 # ]

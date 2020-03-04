@@ -147,7 +147,9 @@ LOCATION_FIELD = {
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 # The below one is for heroku
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),

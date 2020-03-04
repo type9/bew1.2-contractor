@@ -10,7 +10,7 @@ from django.http import HttpResponse
 
 
 from django.contrib.gis.geos import Point, MultiPoint
-from rideshare.models import Rider, RideShare, Community, Review, RideTrip
+from rideshare.models import Rider, RideShare, Community, Review, RideTrip, UserToCommunity
 from rideshare.forms import CommunityCreateForm, RideShareCreateForm
 
 
@@ -131,6 +131,10 @@ class CommunityCreateView(CreateView):
             community = form.save(commit=False)
             community.owner = Rider.objects.get(id=request.user.id)
             community.save()
+
+            user2community = UserToCommunity(user=request.user, community=community)
+            user2community.save()
+
             return HttpResponseRedirect(reverse('rideshare:community-details-page', args=[community.slug]))
         return render(request, 'create_community.html', {'form': form})
 

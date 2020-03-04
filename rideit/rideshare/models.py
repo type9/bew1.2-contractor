@@ -6,14 +6,8 @@ from django.contrib.gis.geos import Point, MultiPoint
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
-from location_field.forms.plain import PlainLocationField
-
 class CommunityArea(models.Model):
     # TODO: Create a field that defines the geometric shape that a community operates in
-    pass
-
-class Location(models.Model):
-    # Temororary class for LOCATION_FIELD
     pass
 
 class RideTrip(models.Model):
@@ -171,11 +165,11 @@ class Community(models.Model):
         help_text='The Riders that are allowed to create and participate in ridesharing in this community',
     )
 
-    areas = models.ManyToManyField(
-        Location,
-        blank=True,
-        help_text='The areas in which this community will offer rideshares in (this is used for Riders to find the right communities)'
-    )
+    # areas = models.ManyToManyField(
+    #     Location,
+    #     blank=True,
+    #     help_text='The areas in which this community will offer rideshares in (this is used for Riders to find the right communities)'
+    # )
 
     rideshares = models.ManyToManyField(
         RideShare,
@@ -224,11 +218,15 @@ class Community(models.Model):
     def get_rideshares(self):
         return self.rideshares
 
-    def get_members(self, input_community):
-        members = UserToCommunity.objects.filter(community=input_community)
+    # @property
+    # def get_members(self, input_community):
+    #     members = UserToCommunity.objects.filter(community=input_community)
+    #     return members
+
+    @property
+    def get_members(self):
+        members = UserToCommunity.objects.filter(community=self)
         return members
-
-
 
 class UserToCommunity(models.Model):
     """Relationship between rider and community"""

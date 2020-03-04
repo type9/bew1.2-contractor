@@ -17,14 +17,14 @@
             </div>
             <div class="row text-center">
                 <div class="col-md-12">
-                    <h6 class="community-detail-subtitle mb-2 text-muted"><span class="fas fa-map-pin"></span> Sunset District, San Francisco&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fas fa-users"></span> 58 Members </h6>
+                    <h6 class="community-detail-subtitle mb-2 text-muted"><span class="fas fa-map-pin"></span> United States&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fas fa-users"></span> {{community.get_members|length}} Member{{community.get_members|length|pluralize:",s" }} </h6>
                 </div>
             </div>
             <div class="community-description" style="margin-bottom: -50px">
                 <div class="row text-center">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
-                        <h6 class="community-detail-subtitle mb-2 text-muted">This is the community description that is short and sweet! But not too long. Because if it is too long, it is very bad</h6>
+                        <h6 class="community-detail-subtitle mb-2 text-muted">{{ community.description }}</h6>
                     </div>
                     <div class="col-md-2"></div>
                 </div>

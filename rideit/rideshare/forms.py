@@ -1,9 +1,7 @@
 from django import forms
 
-from rideshare.models import Community, RideShare, Location, Review
+from rideshare.models import Community, RideShare, Review
 from django.contrib.gis.geos import Point
-
-from location_field.forms.plain import PlainLocationField
 
 class CommunityCreateForm(forms.ModelForm):
     """ Render and process a form based on the Page model. """

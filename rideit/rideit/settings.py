@@ -96,6 +96,7 @@ DATABASES = {
     # },
     'default': dj_database_url.config(conn_max_age=600),
 }
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 # GDAL_LIBRARY_PATH = os.path.join(BASE_DIR, 'gdal')
 

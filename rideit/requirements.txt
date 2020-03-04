@@ -8,3 +8,5 @@ psycopg2
 psycopg2-binary
 postgis
 dj_database_url
+whitenoise==4.1.4
+Pillow==6.2.1

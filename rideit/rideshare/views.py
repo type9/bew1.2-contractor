@@ -210,6 +210,7 @@ class RideShareCreateView(CreateView):
 
             new_rs.trip = new_trip
 
+            new_rs.driver_user_profile = UserProfile.objects.get(user=request.user)
             new_rs.driver = Rider.objects.get(id=request.user.id)
             new_rs.departure_date = data['departure_date']
             new_rs.cost_per_passenger = data['cost_per_passenger']

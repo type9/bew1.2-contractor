@@ -29,9 +29,6 @@
                                     <input class="form-control typical-field" style="margin-left: 100px; margin-right: 100px" type="text" name="{{ field.name }}" placeholder="{{ field.label|title }}" required></input>
                                 {% else %}
                                     <input type="hidden" name="{{ field.name }}" id="id_{{ field.name }}">
-                                    <!-- <input type="hidden" name="start_long" id="id_start_long">
-                                    <input type="hidden" name="end_lat" id="id_end_lat">
-                                    <input type="hidden" name="end_long" id="id_end_long"> -->
                                 {% endif %}
                             </div>
                         {% endfor %}
@@ -119,7 +116,7 @@
   let end_lat = document.getElementById("id_end_lat");
   let end_long = document.getElementById("id_end_long");
   let map, startAutocomplete, endAutocomplete;
-  let defaultLatLng = {'lat': 100, 'lng': 100}; //declares default marker from form creation
+  let defaultLatLng = {'lat': 37.773972, 'lng': -122.431297}; //declares default marker from form creation
 
   function placeChange(autocomplete, marker){
     console.log("Place change detected" + autocomplete + marker);
@@ -161,7 +158,7 @@
     map = new google.maps.Map(document.getElementById('map'), {
       center: defaultLatLng,
       disableDefaultUI: true,
-      zoom: 10
+      zoom: 6
     });
 
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(startField);

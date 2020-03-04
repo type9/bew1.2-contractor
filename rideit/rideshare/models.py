@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.gis.geos import Point, MultiPoint
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
+from accounts.models import UserProfile
 
 class CommunityArea(models.Model):
     # TODO: Create a field that defines the geometric shape that a community operates in
@@ -70,6 +71,14 @@ class RideShare(models.Model):
         blank=True,
         null=True,
         help_text='OPTIONAL: When the driver plans to return from end location (if is offering return trip)'
+    )
+
+    driver_user_profile = models.ForeignKey(
+        UserProfile,
+        null=True,
+        related_name='userProfile_of_%(app_label)s_%(class)s',
+        on_delete=models.PROTECT,
+        help_text='The UserProfile of Rider who is offering to drive the trip'
     )
 
     driver = models.ForeignKey(

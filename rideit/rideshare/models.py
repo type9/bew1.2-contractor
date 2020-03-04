@@ -6,8 +6,6 @@ from django.contrib.gis.geos import Point, MultiPoint
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
-from location_field.forms.plain import PlainLocationField
-
 class CommunityArea(models.Model):
     # TODO: Create a field that defines the geometric shape that a community operates in
     pass

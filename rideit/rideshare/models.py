@@ -166,11 +166,11 @@ class Community(models.Model):
         help_text='The Riders that are allowed to create and participate in ridesharing in this community',
     )
 
-    areas = models.ManyToManyField(
-        Location,
-        blank=True,
-        help_text='The areas in which this community will offer rideshares in (this is used for Riders to find the right communities)'
-    )
+    # areas = models.ManyToManyField(
+    #     Location,
+    #     blank=True,
+    #     help_text='The areas in which this community will offer rideshares in (this is used for Riders to find the right communities)'
+    # )
 
     rideshares = models.ManyToManyField(
         RideShare,

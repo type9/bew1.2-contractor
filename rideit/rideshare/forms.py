@@ -1,6 +1,6 @@
 from django import forms
 
-from rideshare.models import Community, RideShare, Location, Review
+from rideshare.models import Community, RideShare, Review
 from django.contrib.gis.geos import Point
 
 class CommunityCreateForm(forms.ModelForm):

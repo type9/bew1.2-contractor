@@ -3,6 +3,7 @@ from rideshare.views import CommunityListView, CommunityDetailView, CommunityCre
 from rideshare.views import RideShareDetailView, RideShareCreateView, BlacklistView
 from rideshare.views import BlockUser, JoinCommunity, AcceptMemberRequest, RemoveRideShare
 from rideshare.views import RateAndReviewRide, SetCommunityPrivacy, PromoteMember, DemoteMember
+from rideshare.views import JoinRide
 
 app_name = 'rideshare'
 
@@ -21,6 +22,8 @@ urlpatterns = [
     path('createcommunity/', CommunityCreateView.as_view(), name='community-create-page'),
     # Ride share detail route
     path('rs/<int:pk>', RideShareDetailView.as_view(), name='rideshare-details-page'),
+    # join rideshare 
+    path('rs/<int:pk>/join', JoinRide, name='rideshare-join'),
     # create ride share route
     path('cm/<str:slug>/newrs', RideShareCreateView.as_view(), name='rideshare-create-page'),
     # blacklist message route slug=community slug

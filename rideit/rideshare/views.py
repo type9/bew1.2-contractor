@@ -116,7 +116,6 @@ class CommunityDetailView(DetailView):
                 'rideshares': rideshares
             })
 
-
 class CommunityCreateView(CreateView):
     '''Community creation form'''
     model = Community
@@ -187,8 +186,7 @@ class RideShareCreateView(CreateView):
             new_rs.save()
             print(f'TRIP STARTSTOP: {new_rs.trip.start.x, new_rs.trip.end.x}')
             community.rideshares.add(new_rs)
-            return HttpResponseRedirect(reverse('rideshare-details-page',
-                                                args=[new_rs.id]))
+            return HttpResponseRedirect(reverse('rideshare:rideshare-details-page', args=[new_rs.id]))
         return render(request, 'rideshare-create.html', {'form': form})
 
 
@@ -434,3 +432,14 @@ def DemoteMember(request, slug, pk):
         message = "You're not an Owner. Only Owners can remove users from Moderator Role"
 
     return render(request, 'blacklist.html', {'message': message})
+
+# join ride
+def JoinRide(request, pk=None):
+    rideshare = get_object_or_404(RideShare, pk=pk)
+    user = Rider.objects.get(id=request.user.id)
+    if user == rideshare.driver:
+        return
+    if user:
+        rideshare.passengers.add(user)
+        return HttpResponseRedirect(reverse('rideshare:rideshare-details-page', args=[rideshare.id]))
+    return HttpResponseRedirect(reverse('accounts:signup'))

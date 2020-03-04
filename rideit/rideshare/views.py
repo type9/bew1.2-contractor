@@ -187,8 +187,10 @@ class RideShareCreateView(CreateView):
             new_rs.save()
             print(f'TRIP STARTSTOP: {new_rs.trip.start.x, new_rs.trip.end.x}')
             community.rideshares.add(new_rs)
-            return HttpResponseRedirect(reverse('rideshare-details-page',
-                                                args=[new_rs.id]))
+            # return HttpResponseRedirect(reverse('rideshare:community-details-page',
+            #                                     args=[new_rs.id]))
+            return HttpResponseRedirect(reverse('rideshare:community-details-page', args=[community_slug]))
+
         return render(request, 'rideshare-create.html', {'form': form})
 
 

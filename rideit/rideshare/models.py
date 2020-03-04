@@ -128,7 +128,6 @@ class RideShare(models.Model):
         print(f'REPSONSE: {r}')
         return r.json()['results'][0]['formatted_address']
 
-
     @property
     def get_end(self):
         '''reverse geocodes start location. returns address'''

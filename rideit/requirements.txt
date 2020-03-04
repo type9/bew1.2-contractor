@@ -8,4 +8,6 @@ psycopg2
 psycopg2-binary
 postgis
 dj_database_url
+geos
+proj
 gdal

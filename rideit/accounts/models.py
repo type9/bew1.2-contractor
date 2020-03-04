@@ -12,4 +12,4 @@ class UserProfile(models.Model):
     email = models.EmailField(default="", max_length=64, help_text='Enter a valid email address')
     number = models.CharField(default="", max_length=10, help_text="Mobile Phone Number")
 
-    profile_pic = models.ImageField(upload_to="media/profile_pics", max_length=500, default="", null=True)
+    profile_pic = models.ImageField(upload_to="profile_pics", max_length=500, default="", null=True)

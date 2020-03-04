@@ -4,3 +4,5 @@ sqlparse==0.3.0
 gunicorn
 djangorestframework
 requests
+psycopg2
+postgis

@@ -2,13 +2,13 @@
 
 {% block content %}
 
-<nav class="navbar navbar-light signup-navbar">
+<!-- <nav class="navbar navbar-light signup-navbar">
     <div class="signup-arrow-wrapper">
         <a class="navbar-brand" href="/">
             <span class="h1 fas fa-arrow-left"></span>
         </a>
     </div>
-</nav>
+</nav> -->
 
 <div class="login-page" style="height: 100vh; background-color: #EEEEEE">
     <div class="row text-center" style="padding-top: 10%">
@@ -32,7 +32,7 @@
 
                     <div class="form-group row d-flex justify-content-center align-items-center">
                         {% if 'profile_pic' in field.name %}
-                            <label class="btn btn-dark" for="my-file-selector">
+                            <label class="btn upload-pic-button" for="my-file-selector">
                                 <input id="my-file-selector" type="file" name="{{ field.name }}" style="display:none"
                                 onchange="$('#upload-file-info').html(this.files[0].name)">
                                 Upload Profile Picture
@@ -46,7 +46,7 @@
                     </div>
                 {% endfor %}
 
-                <button type="submit" class="btn btn-dark mb-2" style="background-color: transparent; border-color: #EEEEEE; margin-top: 10px"">Sign up</button>
+                <button type="submit" class="btn btn-dark mb-2 sign-up-button" style="margin-top: 20px;">Sign up</button>
             </form>
         </div>
         <div class="col-md-5"></div>

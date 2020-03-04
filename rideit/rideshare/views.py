@@ -11,6 +11,8 @@ from django.http import HttpResponse
 
 from django.contrib.gis.geos import Point, MultiPoint
 from rideshare.models import Rider, RideShare, Community, Review, RideTrip, UserToCommunity
+from accounts.models import UserProfile
+
 from rideshare.forms import CommunityCreateForm, RideShareCreateForm
 
 
@@ -22,7 +24,7 @@ class CommunityListView(ListView):
     def get(self, request):
         '''GET a list of communities'''
         if request.user.is_authenticated:
-            user_owned_communities = Community.objects.filter(owner=request.user)
+            user_owned_communities = Community.objects.filter(owner=request.user)[:2]
             print("Request username: {}".format(request.user.username))
 
             rider = Rider.objects.get(id=request.user.id)
@@ -30,9 +32,20 @@ class CommunityListView(ListView):
             user_joined_communities = rider.get_communities(request.user)
             print("User joined communities: {}".format(user_joined_communities))
 
+            user_profile = UserProfile.objects.get(user=request.user)
+
+            user_not_joined_communities = []
+            for c in Community.objects.all():
+                if c not in user_joined_communities:
+                    user_not_joined_communities.append(c)
+
+            print("User not joined communities: {}".format(user_not_joined_communities))
+
             communities = self.get_queryset().all()
             return render(request, 'rideshare_home.html', {
+                'user_profile': user_profile,
                 'communities': communities,
+                'user_not_joined_communities': user_not_joined_communities,
                 'user_joined_communities': user_joined_communities,
                 'user_owned_communities': user_owned_communities
             })
@@ -257,12 +270,15 @@ def JoinCommunity(request, slug, pk=None):
         message = "Thank you for requesting to join {} again!".format(community)
     # user is not in the community
     else:
-        community.member_requests.add(user)
+        community.members.add(user)
+        new_user2community = UserToCommunity(user=user, community=community)
+        new_user2community.save()
         # save user to community members requests
         community.save()
-        message = "{} send a request to join {} has been sent!".format(user, community)
+        print("{} has joined {}!".format(user, community))
+
     # render message to user
-    return render(request, 'blacklist.html', {'message': message})
+    return HttpResponseRedirect(reverse('rideshare:community-details-page', args=[slug]))
 
 # accespt user as memeber of community
 def AcceptMemberRequest(request, slug, pk):

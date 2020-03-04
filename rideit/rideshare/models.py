@@ -21,15 +21,13 @@ class Rider(User):
 
         proxy = True
 
-    # first_name = models.CharField(default="", max_length=32, help_text='First name')
-    # last_name = models.CharField(default="", max_length=32, help_text='Last name')
-
-    # profile_pic = models.ImageField(upload_to="media/profile_pics", max_length=500, default="", null=True)
-    # number = models.CharField(default="", max_length=10, help_text="Mobile Phone Number")
-
-    # TODO -> Add Number, Age, ProfilePic
     def get_communities(self, user_rider):
         communities = [u.community for u in UserToCommunity.objects.filter(user=user_rider)]
+        return communities
+
+    def get_nonmember_communities(self, user_rider):
+        members = Community.objects.values_list('members', flat='True')
+
         return communities
 
 class Review(models.Model):
@@ -222,6 +220,12 @@ class Community(models.Model):
     # def get_members(self, input_community):
     #     members = UserToCommunity.objects.filter(community=input_community)
     #     return members
+
+    def is_member(self, user_rider):
+        if Rider.objects.get(username=user_rider.username) in self.members.get_queryset():
+            return True
+        else:
+            return False
 
     @property
     def get_members(self):

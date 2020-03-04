@@ -19,7 +19,7 @@
                                 <div class="col-md-12 text-center">
                                     <div class="tab">
                                         <button class="tablinks community-tab btn" onclick="openCommunities(event, 'JoinedCommunities'); this.blur();"><h5>Joined Communities</h5></button>
-                                        <button class="tablinks community-tab btn" onclick="openCommunities(event, 'PopularCommunities'); this.blur();"><h5>All Communities</h5></button>
+                                        <button class="tablinks community-tab btn" onclick="openCommunities(event, 'PopularCommunities'); this.blur();"><h5>Popular Communities</h5></button>
                                     </div>
 
                                     <div id="JoinedCommunities" class="tabcontent">
@@ -34,12 +34,7 @@
 
                                     <div id="PopularCommunities" class="tabcontent">
                                         <div class="row">
-                                            {% for community in user_not_joined_communities %}
-                                                <div class="col-md-12">
-                                                    {% include 'partials/community_card_not_joined.html' %}
-                                                </div>
-                                            {% endfor %}
-                                            {% for community in user_joined_communities %}
+                                            {% for community in communities %}
                                                 <div class="col-md-12">
                                                     {% include 'partials/community_card.html' %}
                                                 </div>
@@ -75,8 +70,37 @@
                     </div>
                 </div>
 
-                <div class="col-md-5" style="margin-bottom: 100px;">
+                <div class="col-md-5">
                     <div class="community-detail-user-info-wrapper sticky-top" style="height: 80vh; position: sticky;">
+                        <div class="community-detail-profile-wrapper">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% include 'partials/profile_card.html' %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="community-detail-my-rides-wrapper">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="my-rides-title-wrapper text-center">
+                                        <h3> Recent Rides </h3>
+                                    </div>
+                                    <hr>
+                                    <div class="my-rides-wrapper">
+                                        {% include 'partials/my_ride_card.html' %}
+                                        {% include 'partials/my_ride_card.html' %}
+                                        {% include 'partials/my_ride_card.html' %}
+                                        {% include 'partials/my_ride_card.html' %}
+                                        {% include 'partials/my_ride_card.html' %}
+                                        {% include 'partials/my_ride_card.html' %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="community-detail-user-info-wrapper sticky-top" style="height: 80vh; position: sticky;">
                         <div class="community-detail-profile-wrapper">
                             <div class="row">
                                 <div class="col-md-12">
@@ -97,8 +121,30 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+
+
+                    <!-- <div class="ur-profile-wrapper sticky-top">
+                        <div class="row">
+                            <div class="col-md-12">
+                                {% include 'partials/profile_card.html' %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="user-owned-communities-title text-center">
+                                    <h3>Your Communities</h3>
+                                </div>
+
+                                {% for community in user_owned_communities %}
+                                    {% include 'partials/small_community_card.html' %}
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    </div> -->
                 </div>
+
             </div>
         </div>
     </div>

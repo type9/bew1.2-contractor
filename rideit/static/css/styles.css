@@ -4,6 +4,20 @@
     color: #272727
 }
 
+/* landing page */
+.landing-graphic{
+    padding-top: 40px;
+    width: 90%;
+    height: auto;
+}
+
+.landing-card{
+    margin-bottom: 10px;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    border-color: #f4f4f4;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
 
 /* buttons */
 
@@ -11,6 +25,15 @@
     background-color: #1B8366;
     color: #EEEEEE;
     border-color: #1B8366
+}
+
+.join-community-button{
+    margin-top: 15px;
+    margin-right: 10px;
+    border-radius: 20px;
+    height: 40px;
+    background-color: #2c7873;
+    color: #EEEEEE;
 }
 
 /* navbar */
@@ -62,7 +85,8 @@
 
 .rideshare-home{
     background-color: #EEEEEE;
-    padding-bottom: 200px;
+    height: 100%;
+    padding-bottom: 60px;
 }
 
 .create-community-home{
@@ -152,10 +176,36 @@
     border-radius: 10px;
 }
 
-.sign-up-button{
-    background-color: #8899A6;
+.login-button:hover{
+    background-color: #02a8a8;
     color: #EEEEEE;
     border-radius: 10px;
+}
+
+.sign-up-button{
+    background-color: #0f4c75;
+    color: #EEEEEE;
+    border-radius: 10px;
+}
+
+.sign-up-button:hover{
+    background-color: #3282b8;
+    color: #EEEEEE;
+    border-radius: 10px;
+}
+
+.upload-pic-button{
+    background-color: #ff6464;
+    color: #EEEEEE;
+    border-radius: 10px;
+    border-color: #ff6464;
+}
+
+.upload-pic-button:hover{
+    background-color: #db3056;
+    color: #EEEEEE;
+    border-radius: 10px;
+    border-color: #db3056;
 }
 
 /* community card */
@@ -227,7 +277,7 @@
 
 .profile-card-pic{
     height: 40px;
-    width: auto;
+    width: 40px;
     border-radius: 50%;
 }
 

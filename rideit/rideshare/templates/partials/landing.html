@@ -1,0 +1,85 @@
+{% load static %}
+
+<div class="rideshare-home" style="background-color: #EEEEEE; height: 100%">
+    <div class="container">
+        <div class="row text-center" style='padding-top: 70px'>
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h1 style='color: #272B2B'>Welcome To Ride.it!</h1>
+                <h5 class="text-muted" style='color: #272B2B'>The <b>new hot</b> thing in <b>ridesharing</b></h5>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="row text-center" style="padding-top: 20px">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <img class="landing-graphic" src="{% static 'images/community.png' %}">
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+
+
+
+        <div class="row" style="padding-top: 50px">
+            <div class="col-md-6">
+                <div class="card landing-card">
+                    <div class="card-body text-center">
+                        <span class="h1 fas fa-car"></span>
+                        <h4>GET RIDES EASIER - CREATE RIDES FASTER</h4>
+                        <p>With Ride.it, hitching a ride to literally anywhere is easier than<br> ever.
+                            Joining your ride is literally one click away! Creating a ride is also simple,
+                            just set the date, asking price per passenger and the start and end destination on the map.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card landing-card">
+                    <div class="card-body text-center">
+                        <span class="h1 fas fa-globe-americas"></span>
+                        <h4>COMMUNITY BASED</h4>
+                        <p>
+                            At Ride.it we believe in community, which is why we designed our product with the utmost detail
+                            to community. You can create communities, join communities, and post and join rides in the communities.
+                            Sign Up to experience this for yourself!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 50px">
+            <div class="col-md-6">
+                <div class="card landing-card">
+                    <div class="card-body text-center">
+                        <span class="h1 fas fa-user-friends"></span>
+                        <h4>RIDE SOCIALLY</h4>
+                        <p>
+                            We have integrated social media aspects into our product, complete with ratings, reviews, image highlights, comments
+                            and an interactive map showing all rideshares happening inside of a community.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card landing-card">
+                    <div class="card-body text-center">
+                        <span class="h1 fas fa-dollar-sign"></span>
+                        <h4>MAKE MONEY</h4>
+                        <p>
+                            When you create a ride, you have the option of setting an asking price per passenger. It is an easy way to earn money
+                            on your ruitine ride to work or a drive back from your college.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 80px;">
+            <div class="col-md-5"></div>
+            <div class="col-md-2 text-center">
+                <a href="{% url 'accounts:signup' %}" class="btn h1 sign-up-button">Sign Up</a>
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+    </div>
+</div>

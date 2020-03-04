@@ -1,9 +1,11 @@
 <div class="card community-card">
     <div class="card-body">
         <h4 class="card-title">{{community.title}}</h4>
-        <h6 class="community-detail-subtitle mb-2 text-muted"><span class="fas fa-map-pin"></span> United States, America&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fas fa-users"></span> {{community.get_members|length}} Member{{community.get_members|length|pluralize:",s" }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #50d890"><span class='fas fa-check'></span> You are a member</span></h6>
+        <h6 class="community-detail-subtitle mb-2 text-muted"><span class="fas fa-map-pin"></span> United States, America&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fas fa-users"></span> {{community.get_members|length}} Member{{community.get_members|length|pluralize:",s" }} </h6>
         <p class="card-text community-card-text">{{ community.description }}</p>
 
+
+        <a href="{% url 'rideshare:join-community-page' community.slug%}" class="btn join-community-button" style="">Join</a>
         <a href="{% url 'rideshare:community-details-page' community.slug%}" class="btn community-card-seemore-button" style="">See More</a>
         <!-- <button href="#" class="btn" style="margin-top: 15px; border-radius: 20px; height: 40px; background-color: #E9AE0B; color: #EEEEEE">Learn More</button>
         <button href="#" class="btn" style="margin-top: 15px; border-radius: 20px; height: 40px; background-color: #1B8366; color: #EEEEEE; margin-left: 6px">Join Community</button> -->
